@@ -1,0 +1,38 @@
+/* var text-decoration */
+@font-face {
+    font-family: myfont;
+    src: url(../utilitaires/fonts/ufonts.com_tw-cen-mt.ttf);
+  }
+
+
+* {
+    transition : all 0.8s esase !important;
+    box-sizing: border-box;
+}
+
+body{
+  font-family: myfont !important;
+}
+h1{
+  display: inline-flex;
+  position: relative;
+  transition: all 0.9s ease-in-out;
+}
+
+h1:hover{
+  color:brown;
+  /* padding: 15px; */
+}
+
+h1:hover::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background-color: brown;
+  transform-origin: left; /* La transformation commence à partir de la gauche */
+  transform: scaleX(1); /* L'échelle est initialement à 0 (invisible) */
+  transition: transform 0.3s ease-in-out; /* Ajoutez une transition pour une animation fluide */
+}
