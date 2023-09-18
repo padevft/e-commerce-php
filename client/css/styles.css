@@ -35,7 +35,7 @@ a {
   background-image: url("../images/bg.jpg");
   background-repeat: no-repeat;
   background-size: cover;
-  background-position: center;
+  background-attachment: fixed;
 }
 ul {
   list-style-type: none; /* Retire les puces */
@@ -369,14 +369,47 @@ shop
   overflow-y: auto;
   overflow-x: hidden;
 }
-.item-sorting{
-  color:var(--color-primary);
+.item-sorting {
+  color: var(--color-primary);
 }
-.item-sorting:hover{
+.item-sorting:hover {
   cursor: pointer;
   color: var(--color-primary) !important;
-}   
+}
 
+/* 
+
+****************************  
+login 
+**************************** 
+
+*/
+.container-login{
+  height: calc(100vh - 23.6vh);
+}
+.content-login,.content-signup {
+  width: 32rem;
+  padding:2rem 4rem;
+  background-color: var(--color-white-1);  
+  border-radius:10px;
+}
+.content-signup {
+  padding:2rem 4rem;
+}
+.text-login {
+  color: var(--color-primary);
+  font-size: 1.7rem;
+}
+
+.input-login{
+  border: 1px solid #000 !important;
+  transition:all 15s ease-in-out;
+}
+
+.input-login:focus{
+  border-color: var(--color-primary) !important;
+  box-shadow: 0 0 0 0.25rem var(--color-primary-1) !important;
+}
 /* 
 
 ****************************  

@@ -38,7 +38,7 @@ require_once('../includes/utilitaires.inc.php');
         ?>
         <div class="content-products">
           <div class="row">
-            <div class="col-sm-4 col-md-3 sticky-top container-sticky-categ">
+            <div class="col-sm-4 col-md-3 sticky-top container-sticky-categ pt-4">
               <div class="container-text-category pb-2">
                 <span class="text-category">CATÉGORIES DE PRODUITS</span>
               </div>

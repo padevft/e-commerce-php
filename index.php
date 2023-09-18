@@ -45,7 +45,7 @@ require_once('server/includes/utilitaires.inc.php');
           </div>
         </div>
         <div class="d-flex align-items-center justify-content-center pt-4">
-          <a href="./index.php" class="view-plus px-3">Voir plus</a>
+          <a href="<?= getURL() ?>/server/pages/shop.php" class="view-plus px-3">Voir plus</a>
         </div>
       </div>
   </div>

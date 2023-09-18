@@ -23,8 +23,8 @@
                 <div class="d-flex align-items-center gap-4 justify-content-end mt-2">
                     <div class="container-menu">
                         <ul class="d-flex align-items-center gap-4 menu">
-                            <li> <a href="./index.html" class="menu-item">S'inscrire</a></li>
-                            <li> <a href="./index.html" class="menu-item">Se connecter</a></li>
+                            <li> <a href="<?= getURL() ?>/server/pages/signup.php" class="menu-item">S'inscrire</a></li>
+                            <li> <a href="<?= getURL() ?>/server/pages/login.php" class="menu-item">Se connecter</a></li>
                         </ul>
 
                     </div>
