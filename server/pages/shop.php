@@ -8,9 +8,11 @@ require_once('../includes/utilitaires.inc.php');
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Boutique en ligne</title>
-  <link rel="stylesheet" href="../../client/css/styles.css">
+  
   <link rel="stylesheet" href="../../client/utilitaires/bootstrap/css/bootstrap.min.css">
   <link rel="stylesheet" href="../../client/utilitaires/font-awesome-4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="../../client/utilitaires/swiper/swiper-bundle.min.css">
+  <link rel="stylesheet" href="../../client/css/styles.css">
 
 </head>
 
@@ -22,14 +24,14 @@ require_once('../includes/utilitaires.inc.php');
     <main>
       <div class="d-flex align-items-center justify-content-center pt-5 container-intro">
         <span class="text-intro">
-          Acheter vos livres
+          Retrouvez tous nos differents produits
         </span>
       </div>
       <div class="container-products">
         <div class="pb-5 container-search">
           <div class="d-flex align-items-center gap-2 content-search">
             <span><i class="fa fa-search"></i></span>
-            <input type="text" class="form-control input-search" placeholder="Rechercher un livre" />
+            <input type="text" class="form-control input-search" placeholder="Rechercher ..." />
           </div>
         </div>
         <?php
@@ -51,8 +53,8 @@ require_once('../includes/utilitaires.inc.php');
             <div class="col-sm-8 col-md-9">
               <div class="container-header-product">
                 <div class="d-flex justify-content-between align-items-center">
-                  <span class="fw-semibold">Categorie: <span class="categ-value">Biography</span></span>
-                  <span class="fw-semibold">Showing 1–12 of 40 results</span>
+                  <span class="fw-semibold">Categorie: <span class="categ-value">Chaise</span></span>
+                  <span class="fw-semibold">1–12 de 40 resultats</span>
                   <div class="d-flex align-items-center justify-content-center gap-2">
                     <span class="fw-semibold">
                       Trie par :
@@ -70,14 +72,18 @@ require_once('../includes/utilitaires.inc.php');
                   </div>
 
                 </div>
-              </div>
-              <div class="grid-products-shop pt-2">
-                <?php foreach ($products as $product) : ?>
-                  <?= getHtmlProucut($product) ?>
-                <?php endforeach; ?>
-              </div>
-              <div class="d-flex align-items-center justify-content-center pt-4">
-                <a href="./index.php" class="view-plus px-3">Voir plus</a>
+              </div>              
+              <div class="swiper swiper-products">
+                <div class="swiper-wrapper">
+                  <?php foreach ($products as $product) : ?>
+                    <div class="swiper-slide"><?= getHtmlProucut($product) ?></div>
+                  <?php endforeach; ?>
+                </div>
+                <div class="swiper-button-next">
+                </div>
+                <div class="swiper-button-prev">
+                </div>
+                <div class="swiper-pagination"></div>
               </div>
             </div>
           </div>
@@ -91,6 +97,8 @@ require_once('../includes/utilitaires.inc.php');
   <script src="../../client/utilitaires/Jquery/jquery-3.6.0.min.js"></script>
   <script src="../../client/utilitaires/bootstrap/js/popper.min.js"></script>
   <script src="../../client/utilitaires/bootstrap/js/bootstrap.min.js"></script>
+  <script src="../../client/utilitaires/swiper/swiper-bundle.min.js"></script>
+  <script src="../../client/js/swiper.js"></script>
 </body>
 
 </html>

@@ -5,10 +5,11 @@
 }
 
 :root {
-  --color-primary: #b76b45;
+  --color-primary: #c54f13;
   --color-primary-1: #b76b452e;
   --color-white-1: #fff;
-  --color-dashed: #e1e1e1;
+  --color-dashed: #cccccc2f;
+  --color-dashed-1: #cccccc90;
   --color-bg-1: rgba(0, 0, 0, 0.366);
 }
 
@@ -32,7 +33,7 @@ a {
 }
 
 .container-app {
-  background-image: url("../images/bg.jpg");
+  background-image: url("../images/bureau_16.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment: fixed;
@@ -62,7 +63,7 @@ header ul {
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 .container-logo {
-  width: 120px;
+  width: 140px;
   height: 65px;
 }
 .container-logo img {
@@ -134,7 +135,7 @@ header ul {
   background: var(--color-white-1) none repeat scroll 0 0;
 }
 .text-intro {
-  font-size: 6rem;
+  font-size: 4rem;
   color: var(--color-white-1);
 }
 
@@ -230,7 +231,7 @@ Main
   font-size: 1.7rem !important;
 }
 .text-des {
-  font-weight: 550;
+  font-weight: 580;
 }
 .text-price {
   color: var(--color-primary);
@@ -308,6 +309,7 @@ shop
 .text-category {
   font-size: 1.3rem;
   font-weight: 700;
+  color: var(--color-primary);
 }
 
 .container-search {
@@ -376,7 +378,20 @@ shop
   cursor: pointer;
   color: var(--color-primary) !important;
 }
-
+.swiper-products .swiper-wrapper .swiper-slide-active {
+  border-bottom: 2px solid var(--color-primary) !important;
+  width: auto !important;
+}
+.swiper-products .swiper-button-prev,.swiper-products .swiper-button-next {
+  background-color: var(--color-primary) !important;
+  border-radius: 360px !important;
+}
+.swiper-products .swiper-button-next:after,
+.swiper-products .swiper-button-prev:after {
+  font-size: 16px !important;
+  color: white !important;
+  font-weight: bold !important;
+}
 /* 
 
 ****************************  
@@ -384,29 +399,30 @@ login
 **************************** 
 
 */
-.container-login{
+.container-login {
   height: calc(100vh - 23.6vh);
 }
-.content-login,.content-signup {
+.content-login,
+.content-signup {
   width: 32rem;
-  padding:2rem 4rem;
-  background-color: var(--color-white-1);  
-  border-radius:10px;
+  padding: 2rem 4rem;
+  background-color: var(--color-white-1);
+  border-radius: 10px;
 }
 .content-signup {
-  padding:2rem 4rem;
+  padding: 2rem 4rem;
 }
 .text-login {
   color: var(--color-primary);
   font-size: 1.7rem;
 }
 
-.input-login{
+.input-login {
   border: 1px solid #000 !important;
-  transition:all 15s ease-in-out;
+  transition: all 15s ease-in-out;
 }
 
-.input-login:focus{
+.input-login:focus {
   border-color: var(--color-primary) !important;
   box-shadow: 0 0 0 0.25rem var(--color-primary-1) !important;
 }

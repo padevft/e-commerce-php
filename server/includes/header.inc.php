@@ -4,10 +4,10 @@
             <div class="col-12 col-sm-4">
                 <div class="d-flex flex-row align-items-center">
                     <a class="container-logo" href="./index.html">
-                        <img src="<?= getURL() ?>/client/images/logo.png" />
+                        <img src="<?= getURL() ?>/client/images/log.png" />
 
                     </a>
-                    <span class="text-logo">BShop</span>
+                    <!-- <span class="text-logo">BShop</span> -->
                 </div>
             </div>
             <div class="col-md-4">

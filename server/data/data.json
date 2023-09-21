@@ -1,0 +1,113 @@
+{
+  "categories": [
+    {
+        "name": "Chaises",
+        "number":"3"
+    },
+    {
+        "name": "Tables de bureau",
+        "number":"4"
+    },
+    {
+        "name": "Calendrier",
+        "number":"0"
+    },
+    {
+        "name": "Papeteries",
+        "number":"0"
+    },
+    {
+        "name": "Armoires",
+        "number":"2"
+    },
+    {
+        "name": "Lampes",
+        "number":"1"
+    },
+    {
+        "name": "Ruban",
+        "number":"1"
+    },
+    {
+        "name": "Tiroirs",
+        "number":"3"
+    },
+    {
+        "name": "Agendas",
+        "number":"45"
+    },
+    {
+        "name": "Calendrier",
+        "number":"5"
+    },
+    {
+        "name": "Toutes categories",
+        "number":"50"
+    }
+  ],
+  "products": [
+    {
+      "name": "Armoire avec portes",
+      "description": "Armoire élégante et fonctionnelle avec portes, parfaitement adaptée pour organiser votre espace de rangement. Conçue pour allier style et praticité, cette armoire offre une solution de stockage exceptionnelle tout en ajoutant une touche de sophistication à votre intérieur.",
+      "price": "1500",
+      "image": "/server/data/images/Cabinet with Doors.jpg",
+      "category": "Armoire"
+    },
+    {
+      "name": "Bureau pour quatre personnes",
+      "description": "Bureau spacieux conçu pour accueillir confortablement jusqu'à quatre personnes. Cette solution de travail collaborative est idéale pour les réunions, les sessions de travail en groupe et les projets d'équipe, offrant un espace de travail efficace et convivial.",
+      "price": "5500",
+      "image": "/server/data/images/Four Person Desk.png",
+      "category": "Bureau"
+    },
+    {
+      "name": "Chaise de bureau noire",
+      "description": "Chaise de bureau noire élégante et ergonomique, offrant un confort supérieur pour des heures de travail productif. Son design moderne s'intègre parfaitement dans n'importe quel espace de bureau",
+      "price": "500",
+      "image": "/server/data/images/Office Chair Black.jpg",
+      "category": "Chaise"
+    },
+    {
+      "name": "Chaise de bureau noire",
+      "description": "Chaise de bureau noire élégante et ergonomique, offrant un confort supérieur pour des heures de travail productif. Son design moderne s'intègre parfaitement dans n'importe quel espace de bureau",
+      "price": "500",
+      "image": "/server/data/images/Office Chair.jpg",
+      "category": "Chaise"
+    },
+    {
+      "name": "Lampe",
+      "description": "Lampe de bureau élégante pour un éclairage optimal de votre espace de travail. Son design contemporain s'adapte à tous les styles de décoration.",
+      "price": "200",
+      "image": "/server/data/images/Office Lamp.png",
+      "category": "Lampe"
+    },
+    {
+      "name": "Poubelle à pédale",
+      "description": "Poubelle à pédale pratique et hygiénique pour la gestion de vos déchets. Design moderne et fonctionnel pour s'intégrer dans n'importe quel espace.",
+      "price": "350",
+      "image": "/server/data/images/Pedal Bin.jpg",
+      "category": "Poubelle"
+    },
+    {
+      "name": "Tiroir",
+      "description": "Tiroir de rangement élégant et fonctionnel pour organiser vos affaires avec style.",
+      "price": "4500",
+      "image": "/server/data/images/Drawer.jpg",
+      "category": "Tiroirs"
+    },
+    {
+      "name": "Support de bureau",
+      "description": "Le support de bureau avec écran est un accessoire essentiel pour un environnement de travail ergonomique. Grâce à sa construction solide et son design moderne, il offre un support fiable pour votre écran tout en libérant de l'espace précieux sur votre bureau. Son réglage en hauteur et en inclinaison vous permet de personnaliser votre expérience de visualisation pour un confort optimal. Fabriqué avec des matériaux de haute qualité, ce support de bureau est conçu pour durer et améliorer votre efficacité au travail. Ne laissez pas un écran encombrant perturber votre espace de travail - optez pour le support de bureau avec écran et profitez d'une productivité accrue.",
+      "price": "1500",
+      "image": "/server/data/images/Desk Stand with Screen.png",
+      "category": "Armoire"
+    },
+    {
+      "name": "Ruban d'emballage transparent",
+      "description": " Ruban d'emballage transparent pour emballer des boîtes en carton pour l'expédition et le déménagement. Sceau pour un emballage sûr et résistant",
+      "price": "50",
+      "image": "/server/data/images/ruban.png",
+      "category": "Ruban"
+    }
+  ]
+}
