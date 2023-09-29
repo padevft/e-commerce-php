@@ -1,5 +1,6 @@
 <?php
-require_once('../includes/utilitaires.inc.php');
+    session_start();
+    require_once('../includes/utilitaires.inc.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -20,62 +21,64 @@ require_once('../includes/utilitaires.inc.php');
         require_once('../includes/header.inc.php');
         ?>
         <div>
-            <div class="d-flex align-items-center justify-content-center py-5">
-                <div class="content-signup">
-                    <div class="d-flex justify-content-center align-items-center pb-4">
-                        <span class="fw-semibold text-login">S'inscrire</span>
-                    </div>
-                    <div class="container-form d-flex flex-column gap-3">
-                        <div class="d-flex flex-sm-column flex-md-row align-items-center gap-2">
-                            <div class="d-flex col-12 col-md-6 flex-column gap-2">
-                                <label for="name-login" class="fw-semibold">Nom</label>
-                                <input type="text" id="name-login" class="form-control fw-semibold input-login" placeholder="Nom" />
-                            </div>
-                            <div class="d-flex col-12 col-md-6 flex-column gap-2">
-                                <label for="fristname-login" class="fw-semibold">Prénom</label>
-                                <input type="text" id="fristname-login" class="form-control fw-semibold input-login" placeholder="Prénom" />
-                            </div>
+            <form action="../membre/controleurMembre.php" method="post">
+                <div class="d-flex align-items-center justify-content-center py-5">
+                    <div class="content-signup">
+                        <div class="d-flex justify-content-center align-items-center pb-4">
+                            <span class="fw-semibold text-login">S'inscrire</span>
                         </div>
-
-                        <div class="d-flex flex-sm-column flex-md-row align-items-center justify-content-between gap-2">
-                            <div class="d-flex col-12 col-md-6 flex-column gap-2">
-                                <label for="sexe-login" class="fw-semibold">Sexe</label>
-                                <select class="form-select fw-semibold input-login" id="sexe-login" aria-label="Default select example">
-                                    <option value="M">M</option>
-                                    <option value="F">F</option>
-                                </select>
+                        <div class="container-form d-flex flex-column gap-3">
+                            <div class="d-flex flex-sm-column flex-md-row align-items-center gap-2">
+                                <div class="d-flex col-12 col-md-6 flex-column gap-2">
+                                    <label for="name-login" class="fw-semibold">Nom</label>
+                                    <input type="text" name="nom" id="name-login" class="form-control fw-semibold input-login" placeholder="Nom" />
+                                </div>
+                                <div class="d-flex col-12 col-md-6 flex-column gap-2">
+                                    <label for="fristname-login" class="fw-semibold">Prénom</label>
+                                    <input type="text" name="prenom" id="fristname-login" class="form-control fw-semibold input-login" placeholder="Prénom" />
+                                </div>
                             </div>
-                            <div class="d-flex col-12 col-md-6 flex-column gap-2">
-                                <label for="birthday-login" class="fw-semibold">Date de naissance</label>
-                                <input type="date" id="birthday-login" class="form-control fw-semibold input-login" placeholder="Date de naissance" />
 
-                            </div>
-                        </div>
+                            <div class="d-flex flex-sm-column flex-md-row align-items-center justify-content-between gap-2">
+                                <div class="d-flex col-12 col-md-6 flex-column gap-2">
+                                    <label for="sexe-login" class="fw-semibold">Sexe</label>
+                                    <select class="form-select fw-semibold input-login" name="sexe" id="sexe-login" aria-label="Default select example">
+                                        <option value="M">M</option>
+                                        <option value="F">F</option>
+                                    </select>
+                                </div>
+                                <div class="d-flex col-12 col-md-6 flex-column gap-2">
+                                    <label for="birthday-login" class="fw-semibold">Date de naissance</label>
+                                    <input type="date" id="birthday-login" name="daten" class="form-control fw-semibold input-login" placeholder="Date de naissance" />
 
-                        <div class="d-flex flex-sm-column flex-md-row align-items-center gap-2">
-                            <div class="d-flex col-12 col-md-6 flex-column gap-2">
-                                <label for="email-login" class="fw-semibold">Email</label>
-                                <input type="email" id="email-login" class="form-control fw-semibold input-login" placeholder="Email" />
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="d-flex flex-sm-column flex-md-row align-items-center gap-2">
-                            <div class="d-flex col-12 col-md-6 flex-column gap-2">
-                                <label for="pwd-login" class="fw-semibold">Mot de passe</label>
-                                <input type="password" id="pwd-login" class="form-control fw-semibold input-login" placeholder="Mot de passe" />
+                            <div class="d-flex flex-sm-column flex-md-row align-items-center gap-2">
+                                <div class="d-flex col-12 col-md-6 flex-column gap-2">
+                                    <label for="email-login" class="fw-semibold">Email</label>
+                                    <input type="email" id="email-login" name="courriel" class="form-control fw-semibold input-login" placeholder="Email" />
+                                </div>
                             </div>
-                            <div class="d-flex col-12 col-md-6 flex-column gap-2">
+
+                            <div class="d-flex flex-sm-column flex-md-row align-items-center gap-2">
+                                <div class="d-flex col-12 col-md-6 flex-column gap-2">
+                                    <label for="pwd-login" class="fw-semibold">Mot de passe</label>
+                                    <input type="password" id="pwd-login" name="mdp" class="form-control fw-semibold input-login" placeholder="Mot de passe" pattern="[A-Za-z0-9_\$#\-]{6,10}" />
+                                </div>
+                                <!-- <div class="d-flex col-12 col-md-6 flex-column gap-2">
                                 <label for="conform-pwd-login" class="fw-semibold">Confirmer mot de passe</label>
                                 <input type="password" id="conform-pwd-login" class="form-control fw-semibold input-login" placeholder="Confirmer mot de passe" />
+                            </div> -->
                             </div>
-                        </div>
 
-                        <div class="d-flex align-items-center justify-content-center">
-                            <button type="button" class="btn btn-dark px-4">S'inscrire</button>
+                            <div class="d-flex align-items-center justify-content-center">
+                                <button type="submit" class="btn btn-dark px-4">S'inscrire</button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
     <?php

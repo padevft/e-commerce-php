@@ -1,5 +1,6 @@
 <?php
-require_once('server/includes/utilitaires.inc.php');
+  session_start();
+  require_once('server/includes/utilitaires.inc.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
