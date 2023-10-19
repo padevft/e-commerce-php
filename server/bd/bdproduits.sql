@@ -20,8 +20,8 @@ SET time_zone = "+00:00";
 --
 -- Base de données : `e23bdfilms`
 --
-CREATE DATABASE IF NOT EXISTS `bdproduits` DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
-USE `bdproduits`;
+CREATE DATABASE IF NOT EXISTS `bdproduit` DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+USE `bdproduit`;
 
 -- --------------------------------------------------------
 
@@ -42,7 +42,7 @@ CREATE TABLE `connexion` (
 --
 
 INSERT INTO `connexion` (`idm`, `courriel`, `pass`, `role`, `statut`) VALUES
-(1, 'admin@compagnie.com', '12345', 'A', 'A');
+(1, 'admin@compagnie.com', '123456', 'A', 'A');
 
 -- --------------------------------------------------------
 
@@ -58,6 +58,33 @@ CREATE TABLE `membres` (
   `sexe` varchar(1) COLLATE utf8_unicode_ci DEFAULT NULL,
   `datenaissance` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Structure de la table `produits`
+--
+
+CREATE TABLE produits (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,    
+    `titre` TEXT,
+    `categorie` INT,    
+    `prix` DECIMAL(10, 2),
+    `quantite` INT,
+    `description` TEXT,
+    `date_ajout` DATE,   
+    `pochette` TEXT    
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- FOREIGN KEY (categorie) REFERENCES categories(id)
+
+--
+-- Structure de la table `categories`
+--
+CREATE TABLE categories (
+    `id` INT AUTO_INCREMENT PRIMARY KEY, 
+    `nom` VARCHAR(255) NOT NULL
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+
 
 --
 -- Déchargement des données de la table `membres`
