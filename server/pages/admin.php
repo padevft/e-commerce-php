@@ -55,6 +55,7 @@ require_once('../includes/utilitaires.inc.php');
                 <div class="container">
                     <!-- Liste des produits -->
                     <div class="admin-list d-flex flex-column px-5">
+                    <div class="alert alert-danger error-list-product d-none" role="dialog"></div>
                         <div class="py-4 container-search-admin">
                             <div class="d-flex align-items-center gap-2 content-search-admin">
                                 <span><i class="fa fa-search"></i></span>
@@ -243,7 +244,7 @@ require_once('../includes/utilitaires.inc.php');
                                 <button type="button" class="btn-close close-form-add-categ" aria-label="Close"></button>
                             </div>
                             <div class="d-flex justify-content-center py-3">
-                                <h1><b>Ajouter un categorie</b></h1>
+                                <h1><b>Ajouter une categorie</b></h1>
                             </div>
                             <div class="row px-md-5">
                                 <div class="col-12 col-sm-6 col-md-4 d-flex flex-column gap-2 pt-3">
@@ -265,7 +266,8 @@ require_once('../includes/utilitaires.inc.php');
     <script src="../../client/utilitaires/Jquery/jquery-3.6.0.min.js"></script>
     <script src="../../client/utilitaires/bootstrap/js/popper.min.js"></script>
     <script src="../../client/utilitaires/bootstrap/js/bootstrap.min.js"></script>
-    <script src="../../client/utilitaires/select/select2.min.js"></script>
+    <script src="../../client/utilitaires/select/select2.min.js"></script>    
+    <script src="../../client/js/requette.js"></script>
     <script src="../../client/js/admin.js"></script>
 </body>
 

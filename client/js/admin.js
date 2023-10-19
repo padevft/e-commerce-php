@@ -1,18 +1,14 @@
-$(function () {
-    var listeProduits = [];
-    var listeCategories = [];
+/***
+ * Function pour afficher  les produits
+ *
+ */
 
-    /***
-     * Function pour afficher  les produits
-     *
-     */
-
-    function loadProduitsTab(produits) {
-        if (produits.length > 0) {
-            var lines = "";
-            for (var i = 0; i < produits.length; i++) {
-                var produit = produits[i];
-                lines += `<div class="card card-item mb-3" style="max-width: 1200px;">
+function loadProduitsTab(produits) {
+    if (produits.length > 0) {
+        var lines = "";
+        for (var i = 0; i < produits.length; i++) {
+            var produit = produits[i];
+            lines += `<div class="card card-item mb-3" style="max-width: 1200px;">
                                 <div class="row g-0">
                                     <div class="col-md-2">
                                         <div class="d-flex justify-content-center align-itmes-center p-3">
@@ -55,55 +51,55 @@ $(function () {
                                     </div>
                                 </div>
                             </div>`;
-            }
-            $(".admin-products").html(lines);
-            produitAction();
-        } else {
-            $(".admin-products").append(
-                `<div class="d-flex justify-content-center"><b>Aucune categorie</b></div>`
-            );
         }
+        $(".admin-products").html(lines);
+        produitAction();
+    } else {
+        $(".admin-products").append(
+            `<div class="d-flex justify-content-center"><b>Aucune categorie</b></div>`
+        );
     }
+}
 
-    /***
-     * Function sur les buttons d'editer et suppression d'un produit
-     *
-     */
+/***
+ * Function sur les buttons d'editer et suppression d'un produit
+ *
+ */
 
-    function produitAction() {
-        $(".edit-product").each(function (index) {
-            $(this).click(function () {
-                var id = $(this).attr("data-id");
-                let produit = listeProduits.find((produit) => {
-                    return produit["id"] == id;
-                });
-                if (produit) {
-                    showFormUpdateProduct();
-                    showFormDataUpdateProduct(produit);
-                }
+function produitAction() {
+    $(".edit-product").each(function (index) {
+        $(this).click(function () {
+            var id = $(this).attr("data-id");
+            let produit = listeProduits.find((produit) => {
+                return produit["id"] == id;
+            });
+            if (produit) {
+                showFormUpdateProduct();
+                showFormDataUpdateProduct(produit);
+            }
+        });
+    });
+    $(".delete-product").each(function (index) {
+        $(this).click(function () {
+            var id = $(this).attr("data-id");
+            let produit = listeProduits.find((produit) => {
+                return produit["id"] == id;
             });
         });
-        $(".delete-product").each(function (index) {
-            $(this).click(function () {
-                var id = $(this).attr("data-id");
-                let produit = listeProduits.find((produit) => {
-                    return produit["id"] == id;
-                });
-            });
-        });
-    }
+    });
+}
 
-    /***
-     * Function pour afficher  les categories
-     *
-     */
+/***
+ * Function pour afficher  les categories
+ *
+ */
 
-    function loadCategoriesTab(categories) {
-        if (categories.length > 0) {
-            var tr = "";
-            for (var i = 0; i < categories.length; i++) {
-                var categ = categories[i];
-                tr += `<tr class='fw-semibold'>
+function loadCategoriesTab(categories) {
+    if (categories.length > 0) {
+        var tr = "";
+        for (var i = 0; i < categories.length; i++) {
+            var categ = categories[i];
+            tr += `<tr class='fw-semibold'>
                             <td> ${categ.id} </td>
                             <td> ${categ.nom} </td>
                             <td>
@@ -113,324 +109,221 @@ $(function () {
                                 </div>
                             </td>
                         </tr>`;
-            }
-            $(".list-categs").html(tr);
-        } else {
-            $(".list-categs").html(
-                `<tr><div class="d-flex justify-content-center"><b>Aucune categorie</b></div></tr>`
+        }
+        $(".list-categs").html(tr);
+    } else {
+        $(".list-categs").html(
+            `<tr><div class="d-flex justify-content-center"><b>Aucune categorie</b></div></tr>`
+        );
+    }
+}
+
+/***
+ * Fonction pour charger des les categories dans le select
+ *
+ */
+const setCategoriesSelect = (categories) => {
+    var options = `<option value=""></option>`;
+    for (let c of categories) {
+        options += `<option value="${c.id}">${c.nom}</option>`;
+    }
+    $(".category-admin").html(options);
+};
+
+/***
+ * Erreur lors du chagement des produits
+ *
+ */
+
+function errorLoadProducts(message) {
+    $(".error-list-product").toggleClass("d-none d-flex").html(message);
+}
+
+/***
+ * Erreur lors du chagement des categories
+ *
+ */
+
+function errorLoadCategs(message) {
+    $(".error-list-categ").toggleClass("d-none d-flex").html(message);
+}
+
+/**
+ *
+ * Montrer le formulaire d'enregistrement du produit
+ */
+
+function showFormProduct() {
+    $(".admin-list").addClass("d-none").removeClass("d-flex");
+    $(".admin-add").removeClass("d-none").addClass("d-flex");
+    $(".success-add").addClass("d-none").removeClass("d-flex"); //Masquer le alert s'il est encore visible
+    $(".error-add").addClass("d-none").removeClass("d-flex");
+}
+
+
+/**
+ *
+ * Montrer le formulaire d'enregistrement du produit
+ */
+
+function showFormCateg() {
+    $(".admin-list-categ").addClass("d-none").removeClass("d-flex");
+    $(".admin-add-categ").removeClass("d-none").addClass("d-flex");
+    $(".success-categ").addClass("d-none").removeClass("d-flex"); //Masquer le alert s'il est encore visible
+    $(".error-categ").addClass("d-none").removeClass("d-flex");
+}
+
+/**
+ *
+ * Fermer le formulaire d'enregistrement du produit
+ */
+
+function closeFormProduct() {
+    $(".admin-list").removeClass("d-none").addClass("d-flex");
+    $(".admin-add").removeClass("d-flex").addClass("d-none");
+    cleanForm();
+}
+
+/**
+ *
+ * Montrer le formulaire de modification du produit
+ */
+
+function showFormUpdateProduct() {
+    $(".admin-list").addClass("d-none").removeClass("d-flex");
+    $(".admin-update").removeClass("d-none").addClass("d-flex");
+    $(".success-update").addClass("d-none").removeClass("d-flex"); //Masquer le alert s'il est encore visible
+    $(".error-update").addClass("d-none").removeClass("d-flex");
+}
+
+/**
+ *
+ * Fermer le formulaire de modification du produit
+ */
+
+function closeFormUpdateProduct() {
+    $(".admin-list").removeClass("d-none").addClass("d-flex");
+    $(".admin-update").removeClass("d-flex").addClass("d-none");
+    $(".success-update").addClass("d-none").removeClass("d-flex"); //Masquer le alert s'il est encore visible
+    $(".error-update").addClass("d-none").removeClass("d-flex");
+}
+
+/**
+ *
+ * Insertion des donnees du produit dans le formulaire de modification du produit
+ */
+
+function showFormDataUpdateProduct(product) {
+    $("#title-update").val(product.titre);
+    $("#quantity-update").val(product.quantite);
+    $("#price-update").val(product.prix);
+    $("#categ-update").val(product.categorie).trigger("change");
+    $("#description-update").val(product.description);
+    $(".product-img").attr("src", product.pochette);
+    actionButtonUpdateProduct(product);
+}
+
+/***
+ * Nettoyage du formulaire d'ajout du produit
+ *
+ */
+
+function cleanForm() {
+    $("#title").val("");
+    $("#quantity").val("");
+    $("#price").val("");
+    $("#categ-add").val("").trigger("change");
+    $("#description").val("");
+    $("#img-product").val("");
+}
+
+/***
+ * verification de tous les champs du formulaire d'ajout d'un produit
+ *
+ */
+
+function checkFormFields(title, quantity, price, categ, description, image) {
+    if (title && quantity && price && categ && description && image) {
+        return true;
+    }
+    return false;
+}
+
+/***
+ * Action sur le button enregistrer pour modifier un produit
+ *
+ */
+
+function actionButtonUpdateProduct(product) {
+    $(".btn-update-product").on("click", function () {
+        var title = $("#title-update").val();
+        var quantity = $("#quantity-update").val();
+        var price = $("#price-update").val();
+        var category = $("#categ-update").val();
+        var description = $("#description-update").val();
+        var image = $("#img-product-update")[0].files[0];
+        var image = image ? image : "1";
+
+        if (checkFormFields(title, quantity, price, category, description, image)) {
+            manageProduct(
+                product.id,
+                title,
+                quantity,
+                price,
+                category,
+                description,
+                image,
+                false
             );
+        } else {
+            showErrorMessageProduct(false, "<b>Tous les champs sont requis</b>");
         }
-    }
+    });
+}
 
-    /***
-     * Fonction pour charger des les categories dans le select
-     *
-     */
-    const setCategoriesSelect = (categories) => { 
-        var options = `<option value=""></option>`  
-        for (let c of categories) {
-            options += `<option value="${c.id}">${c.nom}</option>`;            
-        }
-        $(".category-admin").html(options);
-    };
+/***
+ * Funtion de reussite lors de la creation ou la modification du produit
+ *
+ */
 
-    /***
-     * Fonction de charger des donnees
-     *
-     */
-    function loadData() {
-        $.ajax({
-            type: "POST",
-            url: "./../../server/admin/controleurAdmin.php",
-            data: { action: "list" },
-            success: function (response) {
-                console.log(response);
-                var result = JSON.parse(response);
-                if (result?.categories) {
-                    listeCategories = result.categories;
-                    loadCategoriesTab(listeCategories);
-                    setCategoriesSelect(listeCategories);
-                } else {
-                    $(".error-add-categ")
-                        .toggleClass("d-none d-flex")
-                        .html("Une erreur s'est produite lors du chargement des donnees");
-                }
-
-                if (result?.produits) {
-                    listeProduits = result.produits;
-                    loadProduitsTab(listeProduits);
-                } else {
-                    $(".error-add")
-                        .toggleClass("d-none d-flex")
-                        .html("Une erreur s'est produite lors du chargement des donnees");
-                }
-            },
-            error: function () {
-                $(".error-add-categ")
-                    .toggleClass("d-none d-flex")
-                    .html("Une erreur s'est produite lors du chargement des donnees");
-                $(".error-add")
-                    .toggleClass("d-none d-flex")
-                    .html("Une erreur s'est produite lors du chargement des donnees");
-            },
-        });
-    }
-
-    /***
-     * Function Ajax d'ajout d'un produit
-     *
-     */
-
-    function manageProduct(
-        id,
-        title,
-        quantity,
-        price,
-        category,
-        description,
-        image,
-        newProduct
-    ) {
-        var formData = new FormData();
-        formData.append("id", id);
-        formData.append("title", title);
-        formData.append("quantity", quantity);
-        formData.append("price", price);
-        formData.append("category", category);
-        formData.append("description", description);
-        formData.append("img-product", image);
-        formData.set("action", newProduct ? "add-product" : "update-product");
-
-        $.ajax({
-            type: "POST",
-            url: "./../../server/admin/controleurAdmin.php",
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function (response) {
-                console.log(response);
-                var result = JSON.parse(response);
-                if (result.success) {
-                    loadData();
-                    if (newProduct) {
-                        cleanForm();
-                        //Affichage du message d'enregistrement reussi
-                        $(".success-add")
-                            .toggleClass("d-none d-flex")
-                            .html("<b>Produit Ajoute</b>");
-
-                        //Interval de temps d'affiche du message alert de reuissite
-                        setTimeout(function () {
-                            $(".success-add").toggleClass("d-none d-flex");
-                        }, 3500);
-                    } else {
-                        closeFormUpdateProduct();
-                    }
-                } else {
-                    if (newProduct) {
-                        //Affichage de l'erreur
-                        $(".error-add").toggleClass("d-none d-flex").html(result.message);
-                        setTimeout(function () {
-                            $(".error-add").toggleClass("d-none d-flex");
-                        }, 3500);
-                    } else {
-                        $(".error-update")
-                            .toggleClass("d-none d-flex")
-                            .html(result.message);
-                        setTimeout(function () {
-                            $(".error-update").toggleClass("d-none d-flex");
-                        }, 3500);
-                    }
-                }
-            },
-            error: function (error) {
-                if (newProduct) {
-                    //Affichage de l'erreur
-                    $(".error-add").toggleClass("d-none d-flex").html(error);
-                    setTimeout(function () {
-                        $(".error-add").toggleClass("d-none d-flex");
-                    }, 3500);
-                } else {
-                    $(".error-update").toggleClass("d-none d-flex").html(error);
-                    setTimeout(function () {
-                        $(".error-add").toggleClass("d-none d-flex");
-                    }, 3500);
-                }
-            },
-        });
-    }
-
-    /***
-     * Function Ajax d'ajout d'une categorie
-     *
-     */
-
-    function addCateg(nom) {
-        var formData = new FormData();
-        formData.append("title", nom);
-        formData.set("action", "add-categ");
-
-        $.ajax({
-            type: "POST",
-            url: "./../../server/admin/controleurAdmin.php",
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function (response) {
-                var result = JSON.parse(response);
-                if (result.success) {
-                    $("#title-categ").val("");
-                    //Affichage du message d'enregistrement reussi
-                    $(".success-add-categ")
-                        .toggleClass("d-none d-flex")
-                        .html("<b>Catégorie ajoutée</b>");
-
-                    //Interval de temps d'affiche du message alert de reuissite
-                    setTimeout(function () {
-                        $(".success-add-categ").toggleClass("d-none d-flex");
-                    }, 3500);
-                } else {
-                    //Affichage de l'erreur
-                    $(".error-add-categ")
-                        .toggleClass("d-none d-flex")
-                        .html(result.message);
-                    setTimeout(function () {
-                        $(".error-add-categ").toggleClass("d-none d-flex");
-                    }, 3500);
-                }
-            },
-            error: function (error) {
-                console.log("Erreur AJAX : ", error);
-                $(".error-add-categ").toggleClass("d-none d-flex").html(error);
-                setTimeout(function () {
-                    $(".error-add-categ").toggleClass("d-none d-flex");
-                }, 3500);
-            },
-        });
-    }
-
-    /**
-     *
-     * Montrer le formulaire d'enregistrement du produit
-     */
-
-    function showFormProduct() {
-        $(".admin-list").addClass("d-none").removeClass("d-flex");
-        $(".admin-add").removeClass("d-none").addClass("d-flex");
-        $(".success-add").addClass("d-none").removeClass("d-flex"); //Masquer le alert s'il est encore visible
-        $(".error-add").addClass("d-none").removeClass("d-flex");
-    }
-
-    /**
-     *
-     * Fermer le formulaire d'enregistrement du produit
-     */
-
-    function closeFormProduct() {
-        $(".admin-list").removeClass("d-none").addClass("d-flex");
-        $(".admin-add").removeClass("d-flex").addClass("d-none");
+function showSuccessMessageProduct(newProduct) {
+    if (newProduct) {
         cleanForm();
+        //Affichage du message d'enregistrement reussi
+        $(".success-add")
+            .toggleClass("d-none d-flex")
+            .html("<b>Produit Ajoute</b>");
+
+        //Interval de temps d'affiche du message alert de reuissite
+        setTimeout(function () {
+            $(".success-add").toggleClass("d-none d-flex");
+        }, 3500);
+    } else {
+        closeFormUpdateProduct();
     }
+}
 
-    /**
-     *
-     * Montrer le formulaire de modification du produit
-     */
+/***
+ * Funtion de l'echec lors de la creation ou la modification du produit
+ *
+ */
 
-    function showFormUpdateProduct() {
-        $(".admin-list").addClass("d-none").removeClass("d-flex");
-        $(".admin-update").removeClass("d-none").addClass("d-flex");
-        $(".success-update").addClass("d-none").removeClass("d-flex"); //Masquer le alert s'il est encore visible
-        $(".error-update").addClass("d-none").removeClass("d-flex");
+function showErrorMessageProduct(newProduct, message) {
+    if (newProduct) {
+        //Affichage de l'erreur
+        $(".error-add").toggleClass("d-none d-flex").html(message);
+        setTimeout(function () {
+            $(".error-add").toggleClass("d-none d-flex");
+        }, 3500);
+    } else {
+        $(".error-update").toggleClass("d-none d-flex").html(message);
+        setTimeout(function () {
+            $(".error-update").toggleClass("d-none d-flex");
+        }, 3500);
     }
+}
 
-    /**
-     *
-     * Fermer le formulaire de modification du produit
-     */
-
-    function closeFormUpdateProduct() {
-        $(".admin-list").removeClass("d-none").addClass("d-flex");
-        $(".admin-update").removeClass("d-flex").addClass("d-none");
-        $(".success-update").addClass("d-none").removeClass("d-flex"); //Masquer le alert s'il est encore visible
-        $(".error-update").addClass("d-none").removeClass("d-flex");
-    }
-
-    /**
-     *
-     * Insertion des donnees du produit dans le formulaire de modification du produit
-     */
-
-    function showFormDataUpdateProduct(product) {
-        $("#title-update").val(product.titre);
-        $("#quantity-update").val(product.quantite);
-        $("#price-update").val(product.prix);
-        $("#categ-update").val(product.categorie).trigger("change");
-        $("#description-update").val(product.description);
-        $(".product-img").attr("src", product.pochette);
-        /***
-         * Action sur le button pour modifier un produit
-         *
-         */
-        $(".btn-update-product").on("click", function () {
-            var title = $("#title-update").val();
-            var quantity = $("#quantity-update").val();
-            var price = $("#price-update").val();
-            var category = $("#categ-update").val();
-            var description = $("#description-update").val();
-            var image = $("#img-product-update")[0].files[0];
-            var image = image ? image : "1";
-
-            if (
-                checkFormFields(title, quantity, price, category, description, image)
-            ) {
-                manageProduct(
-                    product.id,
-                    title,
-                    quantity,
-                    price,
-                    category,
-                    description,
-                    image,
-                    false
-                );
-            } else {
-                $(".error-update")
-                    .toggleClass("d-none d-flex")
-                    .html("<b>Tous les champs sont requis</b>");
-                setTimeout(function () {
-                    $(".error-update").toggleClass("d-none d-flex");
-                }, 3000);
-            }
-        });
-    }
-
-    /***
-     * Nettoyage du formulaire d'ajout du produit
-     *
-     */
-
-    function cleanForm() {
-        $("#title").val("");
-        $("#quantity").val("");
-        $("#price").val("");
-        $("#categ-add").val("").trigger("change");
-        $("#description").val("");
-        $("#img-product").val("");
-    }
-
-    /***
-     * verification de tous les champs du formulaire d'ajout d'un produit
-     *
-     */
-
-    function checkFormFields(title, quantity, price, categ, description, image) {
-        if (title && quantity && price && categ && description && image) {
-            return true;
-        }
-        return false;
-    }
-
+$(function () {
     /***
      * Charger les donnees
      *
@@ -468,7 +361,7 @@ $(function () {
      */
 
     $("#add-categ").on("click", function () {
-        showFormProduct();
+        showFormCateg();
     });
 
     /***
@@ -520,12 +413,7 @@ $(function () {
                 true
             );
         } else {
-            $(".error-add")
-                .toggleClass("d-none d-flex")
-                .html("<b>Tous les champs sont requis</b>");
-            setTimeout(function () {
-                $(".error-add").toggleClass("d-none d-flex");
-            }, 3000);
+            showErrorMessageProduct(true, "<b>Tous les champs sont requis</b>");
         }
     });
 
