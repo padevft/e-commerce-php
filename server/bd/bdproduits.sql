@@ -64,15 +64,16 @@ CREATE TABLE `membres` (
 --
 
 CREATE TABLE produits (
-    `id` INT AUTO_INCREMENT PRIMARY KEY,    
-    `titre` TEXT,
-    `categorie` INT,    
-    `prix` DECIMAL(10, 2),
-    `quantite` INT,
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `titre` TEXT NOT NULL,
+    `categorie` INT NOT NULL,
+    `prix` DECIMAL(10, 2) NOT NULL,
+    `quantite` INT NOT NULL,
     `description` TEXT,
-    `date_ajout` DATE,   
-    `pochette` TEXT    
-)ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+    `date_ajout` DATE NOT NULL,
+    `pochette` TEXT,
+    FOREIGN KEY (categorie) REFERENCES categories(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- FOREIGN KEY (categorie) REFERENCES categories(id)
 

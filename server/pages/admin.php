@@ -54,12 +54,12 @@ require_once('../includes/utilitaires.inc.php');
             <div class="tab-pane fade show active bg-body-secondary h-100" id="product-tab-pane" role="tabpanel" aria-labelledby="product-tab" tabindex="0">
                 <div class="container">
                     <!-- Liste des produits -->
-                    <div class="admin-list d-flex flex-column px-5">
-                    <div class="alert alert-danger error-list-product d-none" role="dialog"></div>
+                    <div class="admin-list d-flex flex-column px-3 px-md-5">
+
                         <div class="py-4 container-search-admin">
-                            <div class="d-flex align-items-center gap-2 content-search-admin">
+                            <div class="d-flex align-items-center gap-2 rounded content-search-admin">
                                 <span><i class="fa fa-search"></i></span>
-                                <input type="text" class="form-control input-search-admin" placeholder="Rechercher ..." />
+                                <input type="text" class="form-control input-search-admin" id="search-products" placeholder="Rechercher ..." />
                             </div>
                         </div>
                         <div class="products-container py-3">
@@ -67,28 +67,39 @@ require_once('../includes/utilitaires.inc.php');
                                 <div class="col-12 col-md-6">
                                     <div class="row">
                                         <div class="col-12 col-md-6 d-flex gap-2 align-items-center">
-                                            <span><b>Catégorie :</b></span>
-                                            <select class="form-control category-admin">
+                                            <span><b>Catégorie:</b></span>
+                                            <select class="form-control" id="categ-product">
                                             </select>
                                         </div>
-                                        <div class="col-12 col-md-6 d-flex gap-2 align-items-center">
-                                            <span><b>Trier :</b> </span>
-                                            <select class="form-control sort-admin">
-                                                <option value="title">Titre</option>
-                                                <option value="price">Prix</option>
-                                                <option value="quantity">Quantite</option>
-                                                <option value="date_ajout">Date ajout</option>                                            </select>
+                                        <div class="col-12 col-md-6 d-flex gap-2 my-2 my-md-0 align-items-center">
+                                            <span><b>Trier:</b> </span>
+                                            <select class="form-control" id="sort-admin">
+                                                <option value="titre">Titre</option>
+                                                <option value="prix">Prix</option>
+                                                <option value="prix_desc">Prix Desc</option>
+                                                <option value="quantite">Quantite</option>
+                                                <option value="quantite_desc">Quantite Desc</option>
+                                                <option value="date_ajout">Date ajout </option>
+                                                <option value="date_ajout_desc">Date ajout Desc</option>
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-12 col-md-6 d-flex justify-content-end">
-                                    <button class="btn btn-primary" id="add-product">
-                                        Ajouter
-                                    </button>
+                                <div class="col-12 col-md-6 pt-2 pt-md-0">
+                                    <div class="d-flex align-items-center justify-content-end gap-2">
+                                        <button class="btn btn-primary" id="add-product">
+                                            Ajouter
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                             <div class="py-4">
                                 <div class="admin-products">
+                                </div>
+                                <div class="d-flex justify-content-center align-items-center">
+                                    <div class="bg-white p-3 rounded">
+                                        <ul id="pagination-products" class="pagination"></ul>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -96,8 +107,7 @@ require_once('../includes/utilitaires.inc.php');
 
                     <!-- Formulaire d'ajout d'un produit -->
                     <div class="admin-add flex-column py-5 d-none px-sm-3 px-md-5 px-2">
-                        <div class="alert alert-danger error-add d-none" role="dialog"></div>
-                        <div class="alert alert-success success-add d-none" role="dialog"></div>
+
                         <div class="card w-100 d-flex flex-column gap-3 p-3">
                             <div class="d-flex justify-content-end">
                                 <button type="button" class="btn-close close-form-add-product" aria-label="Close"></button>
@@ -120,7 +130,7 @@ require_once('../includes/utilitaires.inc.php');
                                 </div>
                                 <div class="col-12 col-sm-6 col-md-4 d-flex flex-column gap-2 pt-3">
                                     <label for="name-login" class="fw-semibold">Categorie</label>
-                                    <select class="form-control category-admin" id="categ-add">
+                                    <select class="form-control category-form-admin" id="categ-add">
                                     </select>
                                 </div>
                                 <div class="col-12 col-sm-6 col-md-4 d-flex flex-column gap-2 pt-3">
@@ -141,8 +151,6 @@ require_once('../includes/utilitaires.inc.php');
 
                     <!-- Formulaire de modification d'un produit -->
                     <div class="admin-update flex-column py-5 d-none px-sm-3 px-md-5 px-2">
-                        <div class="alert alert-danger error-update d-none" role="dialog"></div>
-                        <div class="alert alert-success success-update d-none" role="dialog"></div>
                         <div class="card w-100 d-flex flex-column gap-3 p-3">
                             <div class="d-flex justify-content-end">
                                 <button type="button" class="btn-close close-form-update-product" aria-label="Close"></button>
@@ -153,7 +161,7 @@ require_once('../includes/utilitaires.inc.php');
                             <div class="row px-md-5">
                                 <div class="col-4">
                                     <div class="d-flex justify-content-center aligin-items-center p-4">
-                                        <img src="https://images-na.ssl-images-amazon.com/images/M/MV5BMTg0MTU1MTg4NF5BMl5BanBnXkFtZTgwMDgzNzYxMTE@._V1_SX300.jpg" class="img-fluid rounded product-img" alt="Image">
+                                        <img src="https://images-na.ssl-images-amazon.com/images/M/MV5BMTg0MTU1MTg4NF5BMl5BanBnXkFtZTgwMDgzNzYxMTE@._V1_SX300.jpg" class="img-fluid product-img" alt="Image">
                                     </div>
                                 </div>
                                 <div class="col-8">
@@ -172,7 +180,7 @@ require_once('../includes/utilitaires.inc.php');
                                         </div>
                                         <div class="col-12 col-md-6 d-flex flex-column gap-2 pt-3">
                                             <label for="name-login" class="fw-semibold">Categorie</label>
-                                            <select class="form-control category-admin" id="categ-update">
+                                            <select class="form-control category-form-admin" id="categ-update">
                                             </select>
                                         </div>
                                         <div class="col-12 col-md-6 d-flex flex-column gap-2 pt-3">
@@ -192,6 +200,40 @@ require_once('../includes/utilitaires.inc.php');
                             </div>
                         </div>
                     </div>
+                    <!-- Modal de suppression d'un produit -->
+                    <div class="modal fade" data-bs-keyboard="false" data-bs-backdrop="static" id="delete-product-modal">
+                        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Êtes-vous sûr de vouloir supprimer cet article ?</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body p-3">
+                                    <div class="row p-2">
+                                        <div class="col-4">
+                                            <div class="d-flex justify-content-center aligin-items-center">
+                                                <img src="https://images-na.ssl-images-amazon.com/images/M/MV5BMTg0MTU1MTg4NF5BMl5BanBnXkFtZTgwMDgzNzYxMTE@._V1_SX300.jpg" class="img-fluid  p-img" alt="Image">
+                                            </div>
+                                        </div>
+                                        <div class="col-8">
+                                            <div class="d-flex aligin-items-center">
+                                                <h3 class="p-title fw-semibold"></h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="modal-footer d-flex gap-3">
+                                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                                        Annuler
+                                    </button>
+                                    <button type="button" class="btn btn-dark btn-delete-product">
+                                        Supprimer
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -199,11 +241,11 @@ require_once('../includes/utilitaires.inc.php');
             <div class="tab-pane fade bg-body-secondary h-100" id="category-tab-pane" role="tabpanel" aria-labelledby="category-tab" tabindex="0">
                 <div class="container">
                     <!-- Liste des Categories -->
-                    <div class="admin-list-categ d-flex flex-column px-5">
+                    <div class="admin-list-categ d-flex flex-column px-3 px-md-5">
                         <div class="py-4 container-search-admin">
-                            <div class="d-flex align-items-center gap-2 content-search-admin">
+                            <div class="d-flex align-items-center rounded gap-2 content-search-admin">
                                 <span><i class="fa fa-search"></i></span>
-                                <input type="text" class="form-control input-search-admin" placeholder="Rechercher ..." />
+                                <input type="text" class="form-control input-search-admin" id="search-categs" placeholder="Rechercher ..." />
                             </div>
                         </div>
                         <div class="products-container py-3">
@@ -225,10 +267,15 @@ require_once('../includes/utilitaires.inc.php');
                                                     <th scope="col"></th>
                                                 </tr>
                                             </thead>
-                                            <tbody class="list-categs">
+                                            <tbody class="admin-list-categs">
 
                                             </tbody>
                                         </table>
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-center align-items-center">
+                                    <div class="bg-white p-3 rounded">
+                                        <ul id="pagination-categs" class="pagination"></ul>
                                     </div>
                                 </div>
                             </div>
@@ -237,8 +284,6 @@ require_once('../includes/utilitaires.inc.php');
 
                     <!-- Formulaire d'ajout d'une categorie -->
                     <div class="admin-add-categ flex-column py-5 d-none px-sm-3 px-md-5 px-2">
-                        <div class="alert alert-danger error-add-categ d-none" role="dialog"></div>
-                        <div class="alert alert-success success-add-categ d-none" role="dialog"></div>
                         <div class="card w-100 d-flex flex-column gap-3 p-3">
                             <div class="d-flex justify-content-end">
                                 <button type="button" class="btn-close close-form-add-categ" aria-label="Close"></button>
@@ -247,9 +292,11 @@ require_once('../includes/utilitaires.inc.php');
                                 <h1><b>Ajouter une categorie</b></h1>
                             </div>
                             <div class="row px-md-5">
-                                <div class="col-12 col-sm-6 col-md-4 d-flex flex-column gap-2 pt-3">
-                                    <label for="name-login" class="fw-semibold">Nom</label>
-                                    <input type="text" name="title-categ" id="title-categ" class="form-control fw-semibold input-login" placeholder="Nom" />
+                                <div class="d-flex align-items-center justify-content-center">
+                                    <div class="col-12 col-sm-9 col-md-6 d-flex flex-column gap-2 pt-3">
+                                        <label for="name-login" class="fw-semibold">Nom</label>
+                                        <input type="text" name="title-categ" id="title-categ" class="form-control fw-semibold input-login" placeholder="Nom" />
+                                    </div>
                                 </div>
                                 <div class="d-flex align-items-center justify-content-end gap-4 pt-3">
                                     <button type="submit" class="btn btn-dark px-4 btn-cancel-categ">Annuler</button>
@@ -258,17 +305,96 @@ require_once('../includes/utilitaires.inc.php');
                             </div>
                         </div>
                     </div>
+
+                    <!-- Formulaire d'ajout d'une categorie -->
+                    <div class="admin-update-categ flex-column py-5 d-none px-sm-3 px-md-5 px-2">
+                        <div class="card w-100 d-flex flex-column gap-3 p-3">
+                            <div class="d-flex justify-content-end">
+                                <button type="button" class="btn-close close-form-update-categ" aria-label="Close"></button>
+                            </div>
+                            <div class="d-flex justify-content-center py-3">
+                                <h1><b>Modifier une categorie</b></h1>
+                            </div>
+                            <div class="row px-md-5">
+                                <div class="d-flex align-items-center justify-content-center">
+                                    <div class="col-12 col-sm-9 col-md-6 d-flex flex-column gap-2 pt-3">
+                                        <label for="name-login" class="fw-semibold">Nom</label>
+                                        <input type="text" name="title-categ" id="title-categ-update" class="form-control fw-semibold input-login" placeholder="Nom" />
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-center justify-content-end gap-4 pt-3">
+                                    <button type="submit" class="btn btn-dark px-4 btn-cancel-categ-update">Annuler</button>
+                                    <button type="submit" class="btn btn-primary px-4 btn-update-categ">Enregistrer</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="tab-pane fade" id="member-tab-pane" role="tabpanel" aria-labelledby="member-tab" tabindex="0">...</div>
+
+            <!-- Tab Membres -->
+            <div class="tab-pane fade  bg-body-secondary" id="member-tab-pane" role="tabpanel" aria-labelledby="member-tab" tabindex="0">\
+                <div class="container">
+                    <!-- Liste des Categories -->
+                    <div class="admin-list-categ d-flex flex-column px-3 px-md-5">
+                        <div class="py-4 container-search-admin">
+                            <div class="d-flex align-items-center rounded gap-2 content-search-admin">
+                                <span><i class="fa fa-search"></i></span>
+                                <input type="text" class="form-control input-search-admin" id="search-membres" placeholder="Rechercher ..." />
+                            </div>
+                        </div>
+                        <div class="products-container  py-1">
+                            <div class="py-4">
+                                <div class="admin-membres">
+                                    <div class="table-responsive">
+                                        <table class="table rounded my-2 bg-white">
+                                            <thead>
+                                                <tr style="font-size:1.2rem;">
+                                                    <th scope="col">ID</th>
+                                                    <th scope="col">Nom</th>
+                                                    <th scope="col">Prenom</th>
+                                                    <th scope="col">Courriel</th>
+                                                    <th scope="col">Sexe</th>
+                                                    <th scope="col">Date naissance</th>
+                                                    <th scope="col"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="admin-list-membres">
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-center align-items-center">
+                                    <div class="bg-white p-3 rounded">
+                                        <ul id="pagination-membres" class="pagination"></ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>              
+                
+                </div>
+            </div>
         </div>
-    </div>
-    <script src="../../client/utilitaires/Jquery/jquery-3.6.0.min.js"></script>
-    <script src="../../client/utilitaires/bootstrap/js/popper.min.js"></script>
-    <script src="../../client/utilitaires/bootstrap/js/bootstrap.min.js"></script>
-    <script src="../../client/utilitaires/select/select2.min.js"></script>    
-    <script src="../../client/js/requette.js"></script>
-    <script src="../../client/js/admin.js"></script>
+
+        <div class="position-fixed bottom-0 start-0 p-3" style="z-index: 11">
+            <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header d-flex justify-content-end">
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body px-2">
+                    <div class="alert px-2 text-toast">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="../../client/utilitaires/Jquery/jquery-3.6.0.min.js"></script>
+        <script src="../../client/utilitaires/bootstrap/js/popper.min.js"></script>
+        <script src="../../client/utilitaires/bootstrap/js/bootstrap.min.js"></script>
+        <script src="../../client/utilitaires/Jquery/jquery.twbsPagination.min.js"></script>
+        <script src="../../client/utilitaires/select/select2.min.js"></script>
+        <script src="../../client/js/requette.js"></script>
+        <script src="../../client/js/admin.js"></script>
 </body>
 
 </html>

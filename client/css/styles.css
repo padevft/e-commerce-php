@@ -13,7 +13,8 @@
   --color-bg-1: rgba(0, 0, 0, 0.366);
 }
 
-html, body {
+html,
+body {
   /* height: 100%;  */
   margin: 0;
   padding: 0;
@@ -465,36 +466,35 @@ Admin
 
 */
 
-
-
 .nav-container {
   padding: 1rem 5rem;
   background-color: #000;
 }
 
-.container-menu .nav-link{
-  color: white !important
+.container-menu .nav-link {
+  color: white !important;
 }
-.container-menu .nav-link.active{
-  color: black !important
+.container-menu .nav-link.active {
+  color: black !important;
 }
 
-.container-search-admin {
-}
-.content-body{
+.content-body {
   height: 100%;
+}
+#myTabContent .tab-pane {
+  /* background-color: #eeeeeef7 !important; */
 }
 
 .content-search-admin {
-  padding: 0.4rem 1.5rem;
+  padding: 0.2rem 1.5rem;
   background-color: white;
 }
 .content-search-admin:focus-within {
-  border: 1px solid var(--color-primary);
+  border-radius: 10px;
   box-shadow: 0 0 0 0.25rem var(--color-primary-1);
 }
 .content-search-admin i {
-  font-size: 1.5rem;
+  font-size: 1.3rem;
 }
 .content-search-admin:focus-within i {
   color: var(--color-primary);
@@ -502,19 +502,20 @@ Admin
 
 .input-search-admin {
   border: unset !important;
-  font-size: 1.5rem !important;
+  font-size: 1.2rem !important;
 }
 .input-search-admin:focus,
 .input-search-admin:active {
   border: unset !important;
   box-shadow: none !important;
 }
-.card-item{
+.category-admin {
+  padding: 0.375rem 0.75rem !important;
 }
-.card-description{
-  /* height: 120px; */
-  /* overflow-y: auto; */
+#pagination-products,
+#pagination-categs,#pagination-membres {
+  margin-bottom: 0px !important;
 }
-.category-admin{
-  padding: .375rem .75rem !important;
+.empty-products {
+  height: 100vh !important;
 }

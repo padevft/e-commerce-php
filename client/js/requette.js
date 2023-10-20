@@ -1,8 +1,8 @@
-
-
 var listeProduits = [];
 var listeCategories = [];
-
+var listeMembres = [];
+var product = null;
+var categ = null;
 
 /***
  * Fonction de charger des donnees
@@ -14,12 +14,13 @@ function loadData() {
         url: "./../../server/admin/controleurAdmin.php",
         data: { action: "list" },
         success: function (response) {
-            console.log(response);
+            // console.log(response);
             var result = JSON.parse(response);
             if (result?.categories) {
                 listeCategories = result.categories;
-                loadCategoriesTab(listeCategories);
-                setCategoriesSelect(listeCategories);
+                loadCategs(listeCategories);
+                setCategsSelect(listeCategories);
+                setCategsSelectForm(listeCategories);
             } else {
                 errorLoadCategs(
                     "Une erreur s'est produite lors du chargement des donnees"
@@ -28,7 +29,16 @@ function loadData() {
 
             if (result?.produits) {
                 listeProduits = result.produits;
-                loadProduitsTab(listeProduits);
+                loadProducts(listeProduits);
+            } else {
+                errorLoadProducts(
+                    "Une erreur s'est produite lors du chargement des donnees"
+                );
+            }
+
+            if (result?.membres) {
+                listeMembres = result.membres;
+                loadMembres(listeMembres);
             } else {
                 errorLoadProducts(
                     "Une erreur s'est produite lors du chargement des donnees"
@@ -78,17 +88,85 @@ function manageProduct(
         processData: false,
         contentType: false,
         success: function (response) {
-            console.log(response);
+            // console.log(response);
             var result = JSON.parse(response);
             if (result.success) {
-                loadData();
-                showSuccessMessageProduct(newProduct);
+                loadProducts(result.produits.data);
+                showSuccessProduct(newProduct, result.message);
             } else {
-                showErrorMessageProduct(newProduct, result.message);
+                showError(result.message);
             }
         },
         error: function (error) {
-            showErrorMessageProduct(newProduct, error);
+            showError(error);
+        },
+    });
+}
+
+/***
+ * Function de suppression d'un produit
+ *
+ */
+function deleteProduct(id) {
+    var formData = new FormData();
+    formData.append("id", id);
+    formData.set("action", "delete-product");
+
+    $.ajax({
+        type: "POST",
+        url: "./../../server/admin/controleurAdmin.php",
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function (response) {
+            // console.log(response);
+            var result = JSON.parse(response);
+            if (result.success) {
+                // loadData();
+                loadProducts(result.produits.data);
+                showMessageDeleteProduct(true, result.message);
+            } else {
+                showMessageDeleteProduct(false, result.message);
+            }
+        },
+        error: function (error) {
+            showMessageDeleteProduct(false, error);
+        },
+    });
+}
+
+/***
+ * Function de filtrage, recherche
+ *
+ */
+function filterProduct() {
+    var category = $("#categ-product").val();
+    var sort = $("#sort-admin").val();
+    var search = $("#search-products").val();
+
+    var formData = new FormData();
+    formData.append("category", category);
+    formData.append("sort", sort);
+    formData.append("search", search);
+    formData.set("action", "filter-product");
+
+    $.ajax({
+        type: "POST",
+        url: "./../../server/admin/controleurAdmin.php",
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function (response) {
+            // console.log(response);
+            var result = JSON.parse(response);
+            if (result.success) {
+                loadProducts(result.data);
+            } else {
+                showError(result.message);
+            }
+        },
+        error: function (error) {
+            showError(error);
         },
     });
 }
@@ -98,10 +176,11 @@ function manageProduct(
  *
  */
 
-function addCateg(nom) {
+function manageCateg(id, nom, newCateg) {
     var formData = new FormData();
-    formData.append("title", nom);
-    formData.set("action", "add-categ");
+    formData.append("id", id);
+    formData.append("nom", nom);
+    formData.set("action", newCateg ? "add-categ" : "update-categ");
 
     $.ajax({
         type: "POST",
@@ -112,30 +191,108 @@ function addCateg(nom) {
         success: function (response) {
             var result = JSON.parse(response);
             if (result.success) {
-                $("#title-categ").val("");
-                //Affichage du message d'enregistrement reussi
-                $(".success-add-categ")
-                    .toggleClass("d-none d-flex")
-                    .html("<b>Catégorie ajoutée</b>");
-
-                //Interval de temps d'affiche du message alert de reuissite
-                setTimeout(function () {
-                    $(".success-add-categ").toggleClass("d-none d-flex");
-                }, 3500);
+                loadData();
+                showSuccessCateg(newCateg,result.message);
             } else {
-                //Affichage de l'erreur
-                $(".error-add-categ").toggleClass("d-none d-flex").html(result.message);
-                setTimeout(function () {
-                    $(".error-add-categ").toggleClass("d-none d-flex");
-                }, 3500);
+                showError(result.message);
             }
         },
         error: function (error) {
             console.log("Erreur AJAX : ", error);
-            $(".error-add-categ").toggleClass("d-none d-flex").html(error);
-            setTimeout(function () {
-                $(".error-add-categ").toggleClass("d-none d-flex");
-            }, 3500);
+            showError(error);
+        },
+    });
+}
+
+/***
+ * Function de filtrage, recherche categ
+ *
+ */
+function filterCateg() {
+    var search = $("#search-categs").val();
+
+    var formData = new FormData();
+    formData.append("search", search);
+    formData.set("action", "filter-categ");
+
+    $.ajax({
+        type: "POST",
+        url: "./../../server/admin/controleurAdmin.php",
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function (response) {
+            // console.log(response);
+            var result = JSON.parse(response);
+            if (result.success) {
+                loadCategs(result.data);
+            } else {
+                showError(result.message);
+            }
+        },
+        error: function (error) {
+            showError(error);
+        },
+    });
+}
+
+function manageMembre(idm, statut) {
+    var formData = new FormData();
+    formData.append("id", idm);
+    formData.append("statut", statut);
+    formData.set("action", "update-membre");
+
+    $.ajax({
+        type: "POST",
+        url: "./../../server/admin/controleurAdmin.php",
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function (response) {
+            // console.log(response);
+            var result = JSON.parse(response);
+            if (result.success) {
+                loadMembres(result.membres.data);
+                showSuccessMembre(result.message)
+            } else {
+                showError(result.message);
+            }
+        },
+        error: function (error) {
+            showError(error);
+        },
+    });
+}
+
+
+/***
+ * Function de filtrage, recherche Membre
+ *
+ */
+function filterMembre() {
+    var search = $("#search-membres").val();
+
+    var formData = new FormData();
+    formData.append("search", search);
+    formData.set("action", "filter-membre");
+
+    $.ajax({
+        type: "POST",
+        url: "./../../server/admin/controleurAdmin.php",
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function (response) {
+            console.log(response);
+            var result = JSON.parse(response);
+            if (result.success) {
+                loadMembres(result.data);
+            } else {
+                showError(result.message);
+            }
+        },
+        error: function (error) {
+            showError(error);
         },
     });
 }
