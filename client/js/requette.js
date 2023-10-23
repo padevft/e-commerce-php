@@ -1,3 +1,4 @@
+var listeProduitsA = [];
 var listeProduits = [];
 var listeCategories = [];
 var listeMembres = [];
@@ -5,7 +6,32 @@ var product = null;
 var categ = null;
 
 /***
- * Fonction de charger des donnees
+ * Fonction de charger des donnees sur la page Accueil
+ *
+ */
+function loadDataA() {
+    $.ajax({
+        type: "POST",
+        url: "./server/admin/controleurAdmin.php",
+        data: { action: "list" },
+        success: function (response) {
+            // console.log(response);
+            var result = JSON.parse(response);
+            if (result?.produits) {
+                listeProduitsA = result.produits;
+                loadProductsA(listeProduitsA);
+            } else {
+                console.log("Une erreur s'est produite lors du chargement des donnees");
+            }
+        },
+        error: function () {
+            console.log("Une erreur s'est produite lors du chargement des donnees");
+        },
+    });
+}
+
+/***
+ * Fonction de charger des donnees sur la page Admin
  *
  */
 function loadData() {
@@ -14,7 +40,7 @@ function loadData() {
         url: "./../../server/admin/controleurAdmin.php",
         data: { action: "list" },
         success: function (response) {
-            // console.log(response);
+            console.log(response);
             var result = JSON.parse(response);
             if (result?.categories) {
                 listeCategories = result.categories;
@@ -192,7 +218,7 @@ function manageCateg(id, nom, newCateg) {
             var result = JSON.parse(response);
             if (result.success) {
                 loadData();
-                showSuccessCateg(newCateg,result.message);
+                showSuccessCateg(newCateg, result.message);
             } else {
                 showError(result.message);
             }
@@ -254,7 +280,7 @@ function manageMembre(idm, statut) {
             if (result.success) {
                 listeMembres = result.membres.data;
                 loadMembres(listeMembres);
-                showSuccessMembre(result.message)
+                showSuccessMembre(result.message);
             } else {
                 showError(result.message);
             }
@@ -264,7 +290,6 @@ function manageMembre(idm, statut) {
         },
     });
 }
-
 
 /***
  * Function de filtrage, recherche Membre
