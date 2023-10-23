@@ -9,13 +9,13 @@ var toast = new bootstrap.Toast(liveToast);
 function construireProduit(produit) {
     var line = `<div class="card card-item mb-3" style="max-width: 1200px;">
                     <div class="row g-0">
-                        <div class="col-md-2">
+                        <div class="col-md-3">
                             <div class="d-flex justify-content-center align-itmes-center p-3">
                                 <img src="${produit.pochette}" class="img-fluid" alt="Image">
                             </div>
                         </div>
 
-                        <div class="col-md-10">
+                        <div class="col-md-9">
                             <div class="card-body">
                                 <div class="row align-items-center">
                                     <div class="col-12 col-md-9">

@@ -27,13 +27,14 @@ require_once('../includes/utilitaires.inc.php');
                         <span class="fw-semibold text-login">Se connecter</span>
                     </div>
                     <div class="container-form d-flex flex-column gap-4">
+                        <input type="hidden" name="action" value="connexion" />
                         <div class="d-flex flex-column gap-2">
                             <label for="email-login" class="fw-semibold">Email</label>
                             <input type="email" name="courriel" id="email-login" class="form-control fw-semibold input-login" placeholder="Email" />
                         </div>
                         <div class="d-flex flex-column gap-2">
                             <label for="pwd-login" class="fw-semibold">Mot de passe</label>
-                            <input type="password" name="mdp"  id="pwd-login" class="form-control fw-semibold input-login" placeholder="Mot de passe" pattern="[A-Za-z0-9_\$#\-]{6,10}" />
+                            <input type="password" name="mdp" id="pwd-login" class="form-control fw-semibold input-login" placeholder="Mot de passe" pattern="[A-Za-z0-9_\$#\-]{6,10}" />
                         </div>
                         <div class="d-flex align-items-center justify-content-center">
                             <button type="submit" class="btn btn-dark px-3" id="login-btn">Se connecter</button>
@@ -53,3 +54,4 @@ require_once('../includes/utilitaires.inc.php');
 </body>
 
 </html>
+?>

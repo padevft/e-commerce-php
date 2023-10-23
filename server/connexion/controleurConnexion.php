@@ -9,20 +9,38 @@ function Ctr_Connexion()
 
     return Mdl_Connexion($courriel, $mdp);
 }
-$response = Ctr_Connexion();
-if ($response === "M") {
-    $_SESSION['role'] = "M";
-    header('Location: ../pages/membre.php');
+
+function Ctr_Deconnexion()
+{
+
+    unset($_SESSION);
+    session_destroy();
+    header('Location: ../../index.php');
     exit();
-} elseif ($response === "A") {
-    $_SESSION['role'] = "A";
-    header('Location: ../pages/admin.php');
-    exit();
-} else {
-    // Gérer d'autres cas d'erreur ici
-    echo $response;
 }
-Ctr_Connexion();
+
+$action = $_POST['action'];
+switch ($action) {
+    case 'connexion':
+        $response = Ctr_Connexion();
+        if ($response === "M") {
+            $_SESSION['role'] = "M";
+            header('Location: ../pages/membre.php');
+            exit();
+        } elseif ($response === "A") {
+            $_SESSION['role'] = "A";
+            header('Location: ../pages/admin.php');
+            exit();
+        } else {
+            // Gérer d'autres cas d'erreur ici
+            echo $response;
+        }
+        break;
+    case 'deconnexion':
+        echo Ctr_Deconnexion();
+        break;
+}
+
 ?>
 <br />
 <a href="../../index.php">Retour a la page d'acceuil</a>

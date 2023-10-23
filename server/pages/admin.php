@@ -23,7 +23,7 @@ require_once('../includes/utilitaires.inc.php');
 <body class="body-admin">
     <nav class="nav-container">
         <div class="row align-items-center">
-            <div class="col-12 col-sm-4">
+            <div class="col-12 col-sm-4 col-md-4">
                 <div class="d-flex flex-row align-items-center">
                     <a class="container-logo" href="./index.html">
                         <img src="<?= getURL() ?>/client/images/log.png" />
@@ -31,7 +31,7 @@ require_once('../includes/utilitaires.inc.php');
                     </a>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-12 col-md-4">
                 <div class="container-menu mt-2">
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
                         <li class="nav-item" role="presentation">
@@ -45,6 +45,17 @@ require_once('../includes/utilitaires.inc.php');
                         </li>
                     </ul>
                 </div>
+            </div>
+            <div class="col-12 col-md-4">
+                <div class="d-flex align-items-center gap-4 justify-content-end mt-2">
+                    <div class="container-menu">
+                        <ul class="d-flex align-items-center gap-4 menu">
+                            <li> <a href="javascript:document.getElementById('formDec').submit();" class="menu-item">Deconnexion</a></li>
+                        </ul>
+
+                    </div>
+                </div>
+
             </div>
         </div>
     </nav>
@@ -371,8 +382,8 @@ require_once('../includes/utilitaires.inc.php');
                                 </div>
                             </div>
                         </div>
-                    </div>              
-                
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -388,6 +399,13 @@ require_once('../includes/utilitaires.inc.php');
                 </div>
             </div>
         </div>
+
+        <!-- Formulaire de deconnexion -->
+        <form action="../connexion/controleurConnexion.php" id="formDec" method="post">
+            <input type="hidden" name="action" value="deconnexion" />
+        </form>
+
+
         <script src="../../client/utilitaires/Jquery/jquery-3.6.0.min.js"></script>
         <script src="../../client/utilitaires/bootstrap/js/popper.min.js"></script>
         <script src="../../client/utilitaires/bootstrap/js/bootstrap.min.js"></script>
