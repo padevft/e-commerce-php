@@ -102,7 +102,7 @@ function construireMembre(membre) {
 function getProduct(id) {
     let product = listeProduits.find((product) => {
         return product.id == id;
-    });
+    });  
     return product;
 }
 function getCateg(id) {

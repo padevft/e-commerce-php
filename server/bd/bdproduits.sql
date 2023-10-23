@@ -20,8 +20,8 @@ SET time_zone = "+00:00";
 --
 -- Base de données : `e23bdfilms`
 --
-CREATE DATABASE IF NOT EXISTS `bdproduit` DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
-USE `bdproduit`;
+CREATE DATABASE IF NOT EXISTS `bdproduits` DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+USE `bdproduits`;
 
 -- --------------------------------------------------------
 
@@ -59,6 +59,17 @@ CREATE TABLE `membres` (
   `datenaissance` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+
+
+
+--
+-- Structure de la table `categories`
+--
+CREATE TABLE categories (
+    `id` INT AUTO_INCREMENT PRIMARY KEY, 
+    `nom` VARCHAR(255) NOT NULL
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
 --
 -- Structure de la table `produits`
 --
@@ -75,15 +86,8 @@ CREATE TABLE produits (
     FOREIGN KEY (categorie) REFERENCES categories(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- FOREIGN KEY (categorie) REFERENCES categories(id)
 
---
--- Structure de la table `categories`
---
-CREATE TABLE categories (
-    `id` INT AUTO_INCREMENT PRIMARY KEY, 
-    `nom` VARCHAR(255) NOT NULL
-)ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
 
 
 

@@ -88,10 +88,10 @@ function manageProduct(
         processData: false,
         contentType: false,
         success: function (response) {
-            // console.log(response);
             var result = JSON.parse(response);
             if (result.success) {
-                loadProducts(result.produits.data);
+                listeProduits = result.produits.data;
+                loadProducts(listeProduits);
                 showSuccessProduct(newProduct, result.message);
             } else {
                 showError(result.message);
@@ -119,11 +119,10 @@ function deleteProduct(id) {
         processData: false,
         contentType: false,
         success: function (response) {
-            // console.log(response);
             var result = JSON.parse(response);
             if (result.success) {
-                // loadData();
-                loadProducts(result.produits.data);
+                listeProduits = result.produits.data;
+                loadProducts(listeProduits);
                 showMessageDeleteProduct(true, result.message);
             } else {
                 showMessageDeleteProduct(false, result.message);
@@ -160,7 +159,8 @@ function filterProduct() {
             // console.log(response);
             var result = JSON.parse(response);
             if (result.success) {
-                loadProducts(result.data);
+                listeProduits = result.data;
+                loadProducts(listeProduits);
             } else {
                 showError(result.message);
             }
@@ -252,7 +252,8 @@ function manageMembre(idm, statut) {
             // console.log(response);
             var result = JSON.parse(response);
             if (result.success) {
-                loadMembres(result.membres.data);
+                listeMembres = result.membres.data;
+                loadMembres(listeMembres);
                 showSuccessMembre(result.message)
             } else {
                 showError(result.message);
@@ -286,7 +287,8 @@ function filterMembre() {
             console.log(response);
             var result = JSON.parse(response);
             if (result.success) {
-                loadMembres(result.data);
+                listeMembres = result.data;
+                loadMembres(listeMembres);
             } else {
                 showError(result.message);
             }

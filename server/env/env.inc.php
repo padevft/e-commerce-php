@@ -2,5 +2,5 @@
     define('SERVEUR','localhost');
     define('USAGER','root');
     define('MDP','');
-    define('BD','bdproduit');
+    define('BD','bdproduits');
 ?>
