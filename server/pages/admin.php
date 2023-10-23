@@ -25,7 +25,7 @@ require_once('../includes/utilitaires.inc.php');
         <div class="row align-items-center">
             <div class="col-12 col-sm-4 col-md-4">
                 <div class="d-flex flex-row align-items-center">
-                    <a class="container-logo" href="./index.html">
+                    <a class="container-logo" href="javascript:document.getElementById('formDec').submit();">
                         <img src="<?= getURL() ?>/client/images/log.png" />
 
                     </a>
