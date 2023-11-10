@@ -87,8 +87,16 @@ CREATE TABLE produits (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
+--
+-- Structure de la table `panier`
+--
 
-
+CREATE TABLE panier (
+    `idm` int(11) NOT NULL,
+    `idp` int(11) NOT NULL,
+    `quantite` INT NOT NULL,
+    `date_ajout` DATE NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
 --

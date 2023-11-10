@@ -8,7 +8,7 @@
         private $daten;
 
         function __construct($idm,$nom, $prenom, $courriel, $sexe, $daten) {
-            $this->setNom($idm);
+            $this->setIdm($idm);
             $this->setNom($nom);
             $this->setPrenom($prenom);
             $this->setCourriel($courriel);

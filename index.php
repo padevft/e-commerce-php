@@ -1,4 +1,7 @@
 <?php
+if (isset($_COOKIE['PHPSESSID'])) {
+  unset($_COOKIE['PHPSESSID']);
+}
 session_start();
 require_once('server/includes/utilitaires.inc.php');
 ?>
@@ -21,9 +24,38 @@ require_once('server/includes/utilitaires.inc.php');
 
 <body>
   <div class="container-app">
-    <?php
-    require_once('server/includes/header.inc.php');
-    ?>
+    <header>
+      <nav class="container-nav">
+        <div class="row align-items-center">
+          <div class="col-12 col-sm-4">
+            <div class="d-flex flex-row align-items-center">
+              <a class="container-logo" href="./index.html">
+                <img src="<?= getURL() ?>/client/images/log.png" />
+
+              </a>
+            </div>
+          </div>
+          <div class="col-12 col-md-8">
+            <div class="d-flex align-items-center gap-4 justify-content-end">
+              <div class="container-menu">
+                <ul class="d-flex align-items-center gap-4 menu">
+                  <!-- <li><a href="<?= getURL() ?>/server/pages/shop.php" class="menu-item">Contactez-nous</a></li> -->
+                  <li> <a href="<?= getURL() ?>/server/pages/signup.php" class="menu-item">S'inscrire</a></li>
+                  <li> <a href="<?= getURL() ?>/server/pages/login.php" class="menu-item">Se connecter</a></li>
+                </ul>
+
+              </div>
+              <!-- <div class="position-relative container-shopping-cart">
+                <span><i class="fa fa-shopping-cart shopping-cart"></i></span>
+                <span class="position-absolute number-product"></span>
+              </div> -->
+            </div>
+
+          </div>
+
+        </div>
+      </nav>
+    </header>
     <main>
       <div class="d-flex align-items-center justify-content-center pt-5 container-intro">
         <span class="text-intro">
@@ -48,14 +80,15 @@ require_once('server/includes/utilitaires.inc.php');
           <a href="<?= getURL() ?>/server/pages/shop.php" class="view-plus px-3">Voir plus</a>
         </div>
       </div>
+
+    </main>
   </div>
-  </main>
   <?php
   require_once('server/includes/footer.inc.php');
   ?>
   <script src="client/utilitaires/Jquery/jquery-3.6.0.min.js"></script>
   <script src="client/utilitaires/bootstrap/js/bootstrap.min.js"></script>
-  <script src="client/utilitaires/swiper/swiper-bundle.min.js"></script> 
+  <script src="client/utilitaires/swiper/swiper-bundle.min.js"></script>
   <script src="client/js/requette.js"></script>
   <script src="client/js/helper.js"></script>
   <script src="client/js/accueil.js"></script>

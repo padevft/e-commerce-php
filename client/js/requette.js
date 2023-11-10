@@ -1,4 +1,5 @@
 var listeProduitsA = [];
+var listeProduitsM = [];
 var listeProduits = [];
 var listeCategories = [];
 var listeMembres = [];
@@ -109,7 +110,7 @@ function manageProduct(
 
     $.ajax({
         type: "POST",
-        url: "./../../server/admin/controleurAdmin.php",
+        url: "./../../server/product/controleurProduit.php",
         data: formData,
         processData: false,
         contentType: false,
@@ -140,7 +141,7 @@ function deleteProduct(id) {
 
     $.ajax({
         type: "POST",
-        url: "./../../server/admin/controleurAdmin.php",
+        url: "./../../server/product/controleurProduit.php",
         data: formData,
         processData: false,
         contentType: false,
@@ -161,7 +162,7 @@ function deleteProduct(id) {
 }
 
 /***
- * Function de filtrage, recherche
+ * Function de filtrage, recherche dans la page admin
  *
  */
 function filterProduct() {
@@ -177,7 +178,7 @@ function filterProduct() {
 
     $.ajax({
         type: "POST",
-        url: "./../../server/admin/controleurAdmin.php",
+        url: "./../../server/product/controleurProduit.php",
         data: formData,
         processData: false,
         contentType: false,
@@ -189,6 +190,43 @@ function filterProduct() {
                 loadProducts(listeProduits);
             } else {
                 showError(result.message);
+            }
+        },
+        error: function (error) {
+            showError(error);
+        },
+    });
+}
+
+/***
+ * Function de filtrage, recherche dans la page membre
+ *
+ */
+function filterProductMember() {
+    var category = $("#categ-product-member").val();
+    var sort = $("#sort-member").val();
+    var search = $("#search-products").val();
+
+    var formData = new FormData();
+    formData.append("category", category);
+    formData.append("sort", sort);
+    formData.append("search", search);
+    formData.set("action", "filter-product");
+
+    $.ajax({
+        type: "POST",
+        url: "./../../server/product/controleurProduit.php",
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function (response) {
+            console.log(response);
+            var result = JSON.parse(response);
+            if (result.success) {
+                listeProduitsM = result.data;
+                loadProductsM(listeProduitsM);
+            } else {
+                showErrorMember(result.message);
             }
         },
         error: function (error) {
@@ -210,7 +248,7 @@ function manageCateg(id, nom, newCateg) {
 
     $.ajax({
         type: "POST",
-        url: "./../../server/admin/controleurAdmin.php",
+        url: "./../../server/category/controleurCategory.php",
         data: formData,
         processData: false,
         contentType: false,
@@ -243,7 +281,7 @@ function filterCateg() {
 
     $.ajax({
         type: "POST",
-        url: "./../../server/admin/controleurAdmin.php",
+        url: "./../../server/category/controleurCategory.php",
         data: formData,
         processData: false,
         contentType: false,
@@ -266,16 +304,16 @@ function manageMembre(idm, statut) {
     var formData = new FormData();
     formData.append("id", idm);
     formData.append("statut", statut);
-    formData.set("action", "update-membre");
+    formData.set("action", "modification-statut");
 
     $.ajax({
         type: "POST",
-        url: "./../../server/admin/controleurAdmin.php",
+        url: "./../../server/membre/controleurMembre.php",
         data: formData,
         processData: false,
         contentType: false,
         success: function (response) {
-            // console.log(response);
+            console.log(response);
             var result = JSON.parse(response);
             if (result.success) {
                 listeMembres = result.membres.data;
@@ -300,11 +338,11 @@ function filterMembre() {
 
     var formData = new FormData();
     formData.append("search", search);
-    formData.set("action", "filter-membre");
+    formData.set("action", "filtrer-membre");
 
     $.ajax({
         type: "POST",
-        url: "./../../server/admin/controleurAdmin.php",
+        url: "./../../server/membre/controleurMembre.php",
         data: formData,
         processData: false,
         contentType: false,
@@ -320,6 +358,48 @@ function filterMembre() {
         },
         error: function (error) {
             showError(error);
+        },
+    });
+}
+
+/**********************************************************************************
+ *
+ * PANIER
+ *
+ * ********************************************************************************
+ */
+
+/***
+ * Function Ajax d'ajout d'une categorie
+ *
+ */
+
+function managePanier(idm, idp, quantite, action) {
+    var formData = new FormData();
+    formData.append("idm", idm);
+    formData.append("idp", idp);
+    formData.append("quantite", quantite);
+    formData.set("action", action);
+
+    $.ajax({
+        type: "POST",
+        url: "./../../server/panier/controleurPanier.php",
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function (response) {
+            console.log(response)
+            var result = JSON.parse(response);
+            if (result.success) {
+                loadProductsPanier(result.produits.data);
+                showMessageM(result.message, "alert-success", "alert-danger");
+            } else {
+                showMessageM(result.message, "alert-danger", "alert-success");
+            }
+        },
+        error: function (error) {
+            console.log("Erreur AJAX : ", error);
+            showMessageM(error, "alert-danger", "alert-success");
         },
     });
 }

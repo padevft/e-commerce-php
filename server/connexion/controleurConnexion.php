@@ -14,7 +14,7 @@ function Ctr_Deconnexion()
 {
 
     unset($_SESSION);
-    session_destroy();
+    session_destroy();   
     header('Location: ../../index.php');
     exit();
 }
@@ -22,19 +22,7 @@ function Ctr_Deconnexion()
 $action = $_POST['action'];
 switch ($action) {
     case 'connexion':
-        $response = Ctr_Connexion();
-        if ($response === "M") {
-            $_SESSION['role'] = "M";
-            header('Location: ../pages/membre.php');
-            exit();
-        } elseif ($response === "A") {
-            $_SESSION['role'] = "A";
-            header('Location: ../pages/admin.php');
-            exit();
-        } else {
-            // Gérer d'autres cas d'erreur ici
-            echo $response;
-        }
+        echo Ctr_Connexion();
         break;
     case 'deconnexion':
         echo Ctr_Deconnexion();
