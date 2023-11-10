@@ -536,7 +536,7 @@ shop
 }
 .label-total-amount {
   color: white;
-  font-size: 2rem;
+  font-size: 1.2rem;
 }
 .cart-total-amount {
   background: var(--color-primary) none repeat scroll 0 0;

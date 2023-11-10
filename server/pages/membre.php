@@ -273,11 +273,20 @@ $products_panier = $products_panier['data'];
                                     </tr>
                                 </thead>
                                 <tbody class="align-middle products-cart">
-                                    <?php foreach ($products_panier as $product) : ?>
-                                        <?= getHtmlProucutPanier($product) ?>
-                                    <?php endforeach; ?>
+                                    <?php
+                                    if (!empty($products_panier)) {
+                                        foreach ($products_panier as $product) {
+                                            echo getHtmlProucutPanier($product);
+                                        }
+                                    } else {
+                                        echo '<tr><td colspan="6">Aucun produit dans le panier</td></tr>';
+                                    }
+                                    ?>
                                 </tbody>
+
                             </table>
+                        </div>
+                        <div class="cart-paypal">
                         </div>
                     </div>
                 </div>
@@ -291,7 +300,16 @@ $products_panier = $products_panier['data'];
                             <div class="d-flex gap-3 justify-content-end">
                                 <div class="cart-total-amount gap-5 text-white">
                                     <span class="label-total-amount">Total</span>
-                                    <span class="label-total-amount total-amount"><?= $products_panier[count($products_panier) - 1]['montantTotalPanier'] ?>$</span>
+                                    <span class="label-total-amount total-amount">
+                                        <?php
+                                        if (!empty($products_panier)) {
+                                            echo '<span class="label-total-amount total-amount">' . $products_panier[count($products_panier) - 1]['montantTotalPanier'] . '$</span>';
+                                        } else {
+                                            echo '<span class="label-total-amount total-amount">0$</span>';
+                                        }
+                                        ?>
+
+                                    </span>
                                 </div>
                                 <button type="button" class="btn btn-pay px-3" data-bs-dismiss="modal">
                                     PAIEMENT

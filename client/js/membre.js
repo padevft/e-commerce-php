@@ -62,17 +62,19 @@ function manageCart() {
 
 function loadProductsPanier(produits) {
   var length = produits?.length;
+  $(".number-products-panier").html(length);
+  $(".total-amount").html(`0$`)
   if (length > 0) {
     let rep = "";
     for (var produit of produits) {
       rep += construireProduitPanier(produit);
     }
     $(".products-cart").html(rep);
-    $(".number-products-panier").html(length);
+
     $(".total-amount").html(`${produits[length - 1]["montantTotalPanier"]} $`);
     manageCart();
   } else {
-    $(".products-cart").html(`<tr><td colspan='5'>Panier vide.</td></tr>`);
+    $(".products-cart").html(`<tr><td colspan='5'>Aucun produit dans le panier.</td></tr>`);
   }
 }
 
