@@ -29,6 +29,7 @@ function Mdl_Connexion($courriel, $mdp)
                 $_SESSION['courriel'] = $ligne->courriel;
                 $_SESSION['sexe'] = $ligne->sexe;
                 $_SESSION['datenaissance'] = $ligne->datenaissance;
+                $_SESSION['avatar'] = $ligne->avatar;
                 if ($role === "M") {
                     header('Location: ../pages/membre.php');
                     exit();
@@ -45,6 +46,9 @@ function Mdl_Connexion($courriel, $mdp)
     } catch (Exception $e) {
         $msg = "Erreur : " . $e->getMessage() . '<br>';
     } finally {
-        return $msg;
+        // return $msg;
+        $_SESSION['msg'] = $msg;
+        header('Location: ../pages/login.php');
+        exit();
     }
 }

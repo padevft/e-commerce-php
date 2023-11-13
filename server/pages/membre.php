@@ -14,6 +14,15 @@ $products = Mdl_Produits();
 $products = $products['data'];
 $products_panier = Mdl_Produits_Panier($_SESSION['idm']);
 $products_panier = $products_panier['data'];
+
+if ($_SESSION['sexe'] == 'M') {
+    $avatar = getURL() . "/client/images/avatar_man.png";
+} else {
+    $avatar = getURL() . "/client/images/avatar_woman.png";
+}
+if (isset($_SESSION['avatar']) && !empty($_SESSION['avatar'])) {
+    $avatar = getURL() . "/server/membre/" . $_SESSION['avatar'];
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -58,8 +67,8 @@ $products_panier = $products_panier['data'];
                                         </a>
                                     </li>
                                     <li>
-                                        <div class="d-flex flex-column text-white">
-                                            <span class="text-center"><i class="fa fa-user"></i></span>
+                                        <div class="d-flex flex-column align-items-center text-white">
+                                            <div class="container-avatar"><img src="<?= $avatar ?>" alt="Image"></div>
                                             <span><?php echo $_SESSION['prenom'] . " " . $_SESSION['nom'] ?></span>
                                         </div>
                                     </li>
@@ -149,7 +158,7 @@ $products_panier = $products_panier['data'];
         <input type="hidden" name="action" value="deconnexion" />
     </form>
     <!-- Modal du profile  -->
-    <form action="../membre/controleurMembre.php" method="post">
+    <form action="../membre/controleurMembre.php" method="post" enctype="multipart/form-data">
         <div class="modal fade" data-bs-keyboard="false" data-bs-backdrop="static" id="modal-profile">
             <div class="modal-dialog modal-fullscreen modal-dialog-centered modal-dialog-scrollable">
 
@@ -169,11 +178,6 @@ $products_panier = $products_panier['data'];
                         <div class="row p-2">
                             <div class="col-4">
                                 <div class="d-flex justify-content-center aligin-items-center">
-                                    <?php if ($_SESSION['sexe'] == 'M') {
-                                        $avatar = getURL() . "/client/images/avatar_man.png";
-                                    } else {
-                                        $avatar = getURL() . "/client/images/avatar_woman.png";
-                                    } ?>
                                     <img src="<?= $avatar ?>" class="img-fluid  p-img" alt="Image">
                                 </div>
                             </div>
@@ -225,6 +229,12 @@ $products_panier = $products_panier['data'];
                                                     <i class="fa fa-eye"></i>
                                                 </button>
                                             </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6 pt-3">
+                                        <div class="d-flex flex-column gap-2">
+                                            <label for="avatar-update" class="fw-semibold">Image</label>
+                                            <input type="file" name="avatar" id="avatar-update" class="form-control  input-login" placeholder="Image" />
                                         </div>
                                     </div>
                                 </div>
@@ -286,8 +296,6 @@ $products_panier = $products_panier['data'];
 
                             </table>
                         </div>
-                        <div class="cart-paypal">
-                        </div>
                     </div>
                 </div>
 
@@ -311,11 +319,83 @@ $products_panier = $products_panier['data'];
 
                                     </span>
                                 </div>
-                                <button type="button" class="btn btn-pay px-3" data-bs-dismiss="modal">
-                                    PAIEMENT
-                                </button>
+                                <button type="button" onclick="document.getElementById('formPay').submit();" class="btn btn-pay px-3">PAIEMENT</button>
                             </div>
                         </div>
+                    </div>
+                </div>
+                <!-- Formulaire de pour le bouton paiement -->
+                <form action="../panier/controleurPanier.php" id="formPay" method="post">
+                    <input type="hidden" name="action" value="payer-panier" />
+                    <input type="hidden" name="idm" value="<?= $_SESSION['idm'] ?>" />
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal du Paiement  -->
+    <div class="modal fade" data-bs-keyboard="false" data-bs-backdrop="static" id="modal-paiement">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header px-5 panier-header">
+                    <div class="d-flex gap-5 align-items-center">
+                        <a class="container-logo" href="#" data-bs-dismiss="modal">
+                            <img src="<?= getURL() ?>/client/images/log.png" />
+                        </a>
+                        <h5 class="modal-title panier-title">PAIEMENT</h5>
+                    </div>
+                    <!-- <button type="button" class="close-panier btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+                </div>
+                <div class="modal-body p-3">
+                    <div class="p-2">
+
+                        <?php
+                        if (isset($_SESSION['result_pay']) && isset($_SESSION['old_cart']) && count($_SESSION['old_cart']['data']) > 0) {
+                            if ($_SESSION['result_pay'] == 1) {
+                                $avatar_pay = getURL() . "/client/images/success-pay.png";
+                            } else {
+                                $avatar_pay = getURL() . "/client/images/error_pay.png";
+                            }
+                        ?>
+                            <input type="hidden" id="result-pay" value="<?= $_SESSION['result_pay'] ?>" />
+                            <div class="d-flex justify-content-center ">
+                                <div class="container-avatar-pay"><img src="<?= $avatar_pay ?>" /></div>
+                            </div>
+                            <div class="d-flex justify-content-center "><span class="fw-semibold"><?= $_SESSION['msg_pay'] ?></span></div>
+                            <div class="table-responsive table-cart">
+                                <table class="table rounded border my-2 bg-white  text-center">
+                                    <thead class="thead-cart">
+                                        <tr style="font-size:1.2rem;">
+                                            <th scope="col" class="col-2">IMAGE</th>
+                                            <th scope="col" class="col-4">PRODUIT</th>
+                                            <th scope="col" class="col-4">PRIX-QTY</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="align-middle">
+                                        <?php
+                                        $old_cart = $_SESSION['old_cart']['data'];
+                                        foreach ($old_cart as $product) {
+                                            echo getHtmlProucutPaiement($product);
+                                        }
+                                        ?>
+                                        <tr>
+                                            <td></td>
+                                            <td> <span class="total-amount">Total</span></td>
+                                            <td><span class="total-amount"><?= $old_cart[count($old_cart) - 1]['montantTotalPanier'] ?>$</span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <?php
+                        }
+                        ?>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="d-flex w-100 align-items-center justify-content-end">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                            Close
+                        </button>
                     </div>
                 </div>
             </div>
@@ -347,6 +427,10 @@ $products_panier = $products_panier['data'];
     <script src="../../client/js/membre.js"></script>
 </body>
 <?php unset($_SESSION['msg']);
-unset($_SESSION['success-p']); ?>
+unset($_SESSION['success-p']);
+unset($_SESSION['result_pay']);
+unset($_SESSION['old_cart']);
+unset($_SESSION['msg_pay']);
+?>
 
 </html>

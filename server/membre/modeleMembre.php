@@ -1,6 +1,7 @@
 <?php
 
 require_once('../bd/connexion.inc.php');
+require_once('../includes/utilitaires.inc.php');
 function Mdl_Ajouter_Membre($membre, $mdp)
 {
     global $connexion;
@@ -9,45 +10,38 @@ function Mdl_Ajouter_Membre($membre, $mdp)
     $courriel = $membre->getCourriel();
     $sexe = $membre->getSexe();
     $daten = $membre->getDaten();
+    $avatar = $membre->getAvatar();
 
-    $sqlInsertMembre = "INSERT INTO membres VALUES (0,?, ?, ?, ?, ?)";
+    $sqlInsertMembre = "INSERT INTO membres VALUES (0,?, ?, ?, ?, ?,?)";
     $sqlInsertConnexion = "INSERT INTO connexion VALUES (?,?, ?, 'M', 'A')";
-    $sqlSelectMembre = "SELECT * FROM membres WHERE courriel = ?";
     try {
-
-        //Tester si le couriel existe deja
-        $stmt = $connexion->prepare($sqlSelectMembre);
-        $stmt->bind_param("s", $courriel);
+        $stmt = $connexion->prepare($sqlInsertMembre);
+        $stmt->bind_param("ssssss", $nom, $prenom, $courriel, $sexe, $daten, $avatar);
         $stmt->execute();
-        $reponse = $stmt->get_result();
+        $idm = $connexion->insert_id;
 
-        if ($reponse->num_rows == 0) {
-            $stmt = $connexion->prepare($sqlInsertMembre);
-            $stmt->bind_param("sssss", $nom, $prenom, $courriel, $sexe, $daten);
-            $stmt->execute();
-            $idm = $connexion->insert_id;
-
-            $stmt = $connexion->prepare($sqlInsertConnexion);
-            $stmt->bind_param("iss", $idm, $courriel, $mdp);
-            $stmt->execute();
-            $msg = "Compte crée";
-            $_SESSION['role'] = 'M';
-            $_SESSION['mdp'] = $mdp;
-            $_SESSION['idm'] = $idm;
-            $_SESSION['nom'] = $nom;
-            $_SESSION['prenom'] = $prenom;
-            $_SESSION['courriel'] = $courriel;
-            $_SESSION['sexe'] = $sexe;
-            $_SESSION['datenaissance'] = $daten;
-            header('Location: ../pages/membre.php');
-            exit();
-        } else {
-            $msg = "Ce courriel est déja utilisé";
-        }
+        $stmt = $connexion->prepare($sqlInsertConnexion);
+        $stmt->bind_param("iss", $idm, $courriel, $mdp);
+        $stmt->execute();
+        $msg = "Compte crée";
+        $_SESSION['role'] = 'M';
+        $_SESSION['mdp'] = $mdp;
+        $_SESSION['idm'] = $idm;
+        $_SESSION['nom'] = $nom;
+        $_SESSION['prenom'] = $prenom;
+        $_SESSION['courriel'] = $courriel;
+        $_SESSION['sexe'] = $sexe;
+        $_SESSION['datenaissance'] = $daten;
+        $_SESSION['avatar'] = $avatar;
+        header('Location: ../pages/membre.php');
+        exit();
     } catch (Exception $e) {
         $msg = "Erreur : " . $e->getMessage() . '<br>';
     } finally {
-        return $msg;
+        // return $msg;
+        $_SESSION['msg'] = $msg;
+        header('Location: ../pages/membre.php');
+        exit();
     }
 }
 
@@ -61,14 +55,15 @@ function Mdl_Modifier_Membre($membre, $nouveauMdp)
     $courriel = $membre->getCourriel();
     $sexe = $membre->getSexe();
     $daten = $membre->getDaten();
+    $avatar = $membre->getAvatar();
 
 
-    $sqlUpdateMembre = "UPDATE membres SET nom=?, prenom=?, sexe=?, datenaissance=? WHERE courriel=?";
+    $sqlUpdateMembre = "UPDATE membres SET nom=?, prenom=?, sexe=?, datenaissance=?, avatar=? WHERE courriel=?";
     $sqlUpdateConnexion = "UPDATE connexion SET pass=? WHERE courriel=?";
 
     try {
         $stmt = $connexion->prepare($sqlUpdateMembre);
-        $stmt->bind_param("sssss", $nom, $prenom, $sexe, $daten, $courriel);
+        $stmt->bind_param("ssssss", $nom, $prenom, $sexe, $daten, $avatar, $courriel);
         $stmt->execute();
 
         $stmt = $connexion->prepare($sqlUpdateConnexion);
@@ -88,6 +83,7 @@ function Mdl_Modifier_Membre($membre, $nouveauMdp)
         $_SESSION['courriel'] = $courriel;
         $_SESSION['sexe'] = $sexe;
         $_SESSION['datenaissance'] = $daten;
+        $_SESSION['avatar'] = $avatar;
         header('Location: ../pages/membre.php');
         exit();
     }
@@ -98,7 +94,7 @@ function Mdl_Membres()
     global $connexion;
 
     // $requete ="SELECT * FROM membres";
-    $requete = "SELECT m.idm, m.nom, m.prenom, m.courriel, m.sexe, m.datenaissance, c.statut AS status_membre 
+    $requete = "SELECT m.idm, m.nom, m.prenom, m.courriel, m.sexe, m.datenaissance,m.avatar, c.statut AS status_membre 
                 FROM membres m
                 LEFT JOIN connexion c ON m.idm = c.idm
                 ORDER BY m.nom";
@@ -106,7 +102,7 @@ function Mdl_Membres()
     try {
         $stmt = $connexion->prepare($requete);
         $stmt->execute();
-        $stmt->bind_result($idm, $nom, $prenom, $courriel, $sexe, $datenaissance, $status_membre);
+        $stmt->bind_result($idm, $nom, $prenom, $courriel, $sexe, $datenaissance, $avatar, $status_membre);
 
         $membres = array();
 
@@ -118,11 +114,11 @@ function Mdl_Membres()
                 'courriel' => $courriel,
                 'sexe' => $sexe,
                 'datenaissance' => $datenaissance,
+                'avatar' => $avatar,
+                'avatar_url' => getURL() . "/server/membre/" . $avatar,
                 'statut' => $status_membre,
             ];
         }
-
-        $stmt->close();
 
         $response = ['success' => true, 'data' => $membres];
     } catch (Exception $e) {
@@ -131,6 +127,54 @@ function Mdl_Membres()
         return $response;
     }
 }
+
+function Mdl_Membre_Par_ID($id)
+{
+    global $connexion;
+    $requete = "SELECT * FROM membres WHERE idm = ?";
+
+    try {
+        $stmt = $connexion->prepare($requete);
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if ($result->num_rows > 0) {
+            $membre = $result->fetch_object();
+            $response = ['success' => true, 'data' => $membre];
+        } else {
+            $response = ['success' => false, 'message' => 'Membre non trouvé'];
+        }
+    } catch (Exception $e) {
+        $response = ['success' => false, 'message' => $e->getMessage()];
+    } finally {
+        return $response;
+    }
+}
+
+function Mdl_Membre_Par_Courriel($courriel)
+{
+    global $connexion;
+    $requete = "SELECT * FROM membres WHERE courriel = ?";
+
+    try {
+        $stmt = $connexion->prepare($requete);
+        $stmt->bind_param("s", $courriel);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if ($result->num_rows > 0) {
+            $membre = $result->fetch_object();
+            $response = ['success' => true, 'data' => $membre];
+        } else {
+            $response = ['success' => false, 'message' => 'Membre non trouvé'];
+        }
+    } catch (Exception $e) {
+        $response = ['success' => false, 'message' => $e->getMessage()];
+    } finally {
+        return $response;
+    }
+}
+
+
 
 function Mdl_Modifier_Statut_Membre($id, $statut)
 {
@@ -152,7 +196,7 @@ function Mdl_Modifier_Statut_Membre($id, $statut)
 function Mdl_Filtrer_Membres($search)
 {
     global $connexion;
-    $requete = "SELECT m.idm, m.nom, m.prenom, m.courriel, m.sexe, m.datenaissance, c.statut AS status_membre 
+    $requete = "SELECT m.idm, m.nom, m.prenom, m.courriel, m.sexe, m.datenaissance, m.avatar, c.statut AS status_membre 
                 FROM membres m
                 LEFT JOIN connexion c ON m.idm = c.idm
                 WHERE m.nom LIKE ?
@@ -163,7 +207,7 @@ function Mdl_Filtrer_Membres($search)
         $searchParam = "%$search%";
         $stmt->bind_param("s", $searchParam);
         $stmt->execute();
-        $stmt->bind_result($idm, $nom, $prenom, $courriel, $sexe, $datenaissance, $status_membre);
+        $stmt->bind_result($idm, $nom, $prenom, $courriel, $sexe, $datenaissance, $avatar, $status_membre);
 
         $membres = array();
 
@@ -175,16 +219,16 @@ function Mdl_Filtrer_Membres($search)
                 'courriel' => $courriel,
                 'sexe' => $sexe,
                 'datenaissance' => $datenaissance,
+                'avatar' => $avatar,
+                'avatar_url' => getURL() . "/server/membre/" . $avatar,
                 'statut' => $status_membre,
             ];
         }
-
         $stmt->close();
-
         $response = ['success' => true, 'data' => $membres];
     } catch (Exception $e) {
-        return ['success' => false, 'message' => $e->getMessage()];
+        $response =  ['success' => false, 'message' => $e->getMessage()];
     } finally {
         return $response;
-    }
+    };
 }

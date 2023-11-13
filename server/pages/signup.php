@@ -1,6 +1,6 @@
 <?php
-    session_start();
-    require_once('../includes/utilitaires.inc.php');
+session_start();
+require_once('../includes/utilitaires.inc.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -21,21 +21,26 @@
         require_once('../includes/header.inc.php');
         ?>
         <div>
-            <form action="../membre/controleurMembre.php" method="post">
+            <form action="../membre/controleurMembre.php" method="post" enctype="multipart/form-data">
                 <div class="d-flex align-items-center justify-content-center py-5">
                     <div class="content-signup">
                         <div class="d-flex justify-content-center align-items-center pb-4">
                             <span class="fw-semibold text-login">S'inscrire</span>
                         </div>
                         <div class="container-form d-flex flex-column gap-3">
+                            <input type="hidden" name="action" value="inscription" />
+                            <?php if (isset($_SESSION['msg'])) {
+                                echo '<input type="hidden" id="result-signup" value="' . $_SESSION['msg'] . '"/>';
+                            }
+                            ?>
                             <div class="d-flex flex-sm-column flex-md-row align-items-center gap-2">
                                 <div class="d-flex col-12 col-md-6 flex-column gap-2">
                                     <label for="name-login" class="fw-semibold">Nom</label>
-                                    <input type="text" name="nom" id="name-login" class="form-control fw-semibold input-login" placeholder="Nom" />
+                                    <input type="text" name="nom" id="name-login" class="form-control fw-semibold input-login" placeholder="Nom" required />
                                 </div>
                                 <div class="d-flex col-12 col-md-6 flex-column gap-2">
                                     <label for="fristname-login" class="fw-semibold">Prénom</label>
-                                    <input type="text" name="prenom" id="fristname-login" class="form-control fw-semibold input-login" placeholder="Prénom" />
+                                    <input type="text" name="prenom" id="fristname-login" class="form-control fw-semibold input-login" placeholder="Prénom" required />
                                 </div>
                             </div>
 
@@ -57,14 +62,18 @@
                             <div class="d-flex flex-sm-column flex-md-row align-items-center gap-2">
                                 <div class="d-flex col-12 col-md-6 flex-column gap-2">
                                     <label for="email-login" class="fw-semibold">Email</label>
-                                    <input type="email" id="email-login" name="courriel" class="form-control fw-semibold input-login" placeholder="Email" />
+                                    <input type="email" id="email-login" name="courriel" class="form-control fw-semibold input-login" placeholder="Email" required />
+                                </div>
+                                <div class="d-flex col-12 col-md-6 flex-column gap-2">
+                                    <label for="pwd-login" class="fw-semibold">Mot de passe</label>
+                                    <input type="password" id="pwd-login" name="mdp" class="form-control fw-semibold input-login" placeholder="Mot de passe" required pattern="[A-Za-z0-9_\$#\-]{6,10}" />
                                 </div>
                             </div>
 
                             <div class="d-flex flex-sm-column flex-md-row align-items-center gap-2">
-                                <div class="d-flex col-12 col-md-6 flex-column gap-2">
-                                    <label for="pwd-login" class="fw-semibold">Mot de passe</label>
-                                    <input type="password" id="pwd-login" name="mdp" class="form-control fw-semibold input-login" placeholder="Mot de passe" pattern="[A-Za-z0-9_\$#\-]{6,10}" />
+                                <div class="d-flex col-12 flex-column gap-2">
+                                    <label for="avatar" class="fw-semibold">Image</label>
+                                    <input type="file" id="avatar" name="avatar" class="form-control fw-semibold input-login" placeholder="Image" />
                                 </div>
                                 <!-- <div class="d-flex col-12 col-md-6 flex-column gap-2">
                                 <label for="conform-pwd-login" class="fw-semibold">Confirmer mot de passe</label>
@@ -84,9 +93,23 @@
     <?php
     require_once('../includes/footer.inc.php');
     ?>
+    <!-- Toast  -->
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 999">
+        <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header d-flex justify-content-end">
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body bg-white px-2">
+                <div class="alert px-2 text-toast">
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="../../client/utilitaires/Jquery/jquery-3.6.0.min.js"></script>
     <script src="../../client/utilitaires/bootstrap/js/popper.min.js"></script>
     <script src="../../client/utilitaires/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../../client/js/signup.js"></script>
 </body>
+<?php unset($_SESSION['msg']); ?>
 
 </html>

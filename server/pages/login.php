@@ -41,17 +41,35 @@ require_once('../includes/utilitaires.inc.php');
                         </div>
                     </div>
                 </div>
+                <?php if (isset($_SESSION['msg'])) {
+                    echo '<input type="hidden" id="result-signup" value="' . $_SESSION['msg'] . '"/>';
+                }
+                ?>
             </div>
         </form>
     </div>
     <?php
     require_once('../includes/footer.inc.php');
     ?>
+
+    <!-- Toast  -->
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 999">
+        <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header d-flex justify-content-end">
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body bg-white px-2">
+                <div class="alert px-2 text-toast">
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="../../client/utilitaires/Jquery/jquery-3.6.0.min.js"></script>
     <script src="../../client/utilitaires/bootstrap/js/popper.min.js"></script>
     <script src="../../client/utilitaires/bootstrap/js/bootstrap.min.js"></script>
-    <!-- <script src="../../client/js/requette.js"></script> -->
+    <script src="../../client/js/signup.js"></script>
 </body>
+<?php unset($_SESSION['msg']); ?>
 
 </html>
 ?>

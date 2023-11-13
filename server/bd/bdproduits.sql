@@ -56,7 +56,8 @@ CREATE TABLE `membres` (
   `prenom` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
   `courriel` varchar(256) COLLATE utf8_unicode_ci NOT NULL,
   `sexe` varchar(1) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `datenaissance` date DEFAULT NULL
+  `datenaissance` date DEFAULT NULL,
+  `avatar` TEXT,
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 

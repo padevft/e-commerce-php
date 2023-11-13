@@ -120,3 +120,20 @@ function getHtmlProucutPanier($product)
 
     return $html;
 }
+
+function getHtmlProucutPaiement($product)
+{
+    $html = <<<HTML
+    <tr>
+    HTML;
+    $html .= '<td>
+                    <div class="d-flex justify-content-center align-itmes-center">
+                        <img src="' . $product['pochette'] . '" class="img-cart-pay" alt="Image">
+                    </div>
+             </td>';
+    $html .= '<td>'. $product['titre'] . '</td>';
+    $html .= '<td>'. $product['prix'] .'$ x '.$product['quantite_panier']. '</td>';    
+    $html .= ' </tr>';
+
+    return $html;
+}

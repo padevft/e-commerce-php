@@ -145,4 +145,16 @@ $(function () {
       showMessageM(val, "alert-danger", "alert-success");
     }
   }
+
+  /**********************************************************************
+   *
+   *
+   * Resultat paiement
+   *
+   */
+  if ($("#result-pay") && $("#result-pay").val()) {
+    var myModal = new bootstrap.Modal('#modal-paiement', {})
+    myModal.show();
+  }
+
 });

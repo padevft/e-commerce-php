@@ -5,6 +5,14 @@ if (!isset($_SESSION['role'])) {
     exit();
 }
 require_once('../includes/utilitaires.inc.php');
+if ($_SESSION['sexe'] == 'M') {
+    $avatar = getURL() . "/client/images/avatar_man.png";
+} else {
+    $avatar = getURL() . "/client/images/avatar_woman.png";
+}
+if (isset($_SESSION['avatar']) && !empty($_SESSION['avatar'])) {
+    $avatar = getURL() . "/server/membre/" . $_SESSION['avatar'];
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -53,9 +61,15 @@ require_once('../includes/utilitaires.inc.php');
                             <div class="container-menu">
                                 <ul class="d-flex align-items-center gap-4 menu">
                                     <li> <a href="javascript:document.getElementById('formDec').submit();" class="menu-item">Deconnexion</a></li>
+                                    <li>
+                                        <div class="d-flex flex-column align-items-center text-white">
+                                            <div class="container-avatar"><img src="<?= $avatar ?>" alt="Image"></div>
+                                            <span><?php echo $_SESSION['prenom'] . " " . $_SESSION['nom'] ?></span>
+                                        </div>
+                                    </li>
                                 </ul>
-
                             </div>
+
                         </div>
 
                     </div>

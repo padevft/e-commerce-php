@@ -553,8 +553,8 @@ function paginationMembre(membres) {
         totalPagesM = Math.ceil(totalRecordsM / recPerPageM);
         applyPaginationMembre();
     } else {
-        $(".admin-list-Ms").html(
-            `<tr><td colspan="3"><div class="d-flex justify-content-center align-items-center justify-content-center"><h1>Aucune Membre</h1></div></td></tr>`
+        $(".admin-list-membres").html(
+            `<tr><td colspan="8"><div class="d-flex justify-content-center align-items-center"><h1>Aucun Membre</h1></div></td></tr>`
         );
     }
 }

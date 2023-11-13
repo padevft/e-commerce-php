@@ -1,5 +1,5 @@
 <?php
-// session_start();
+session_start();
 require_once('./../panier/includes/Panier.php');
 require_once('./../panier/modelePanier.php');
 
@@ -61,6 +61,13 @@ function Ctr_Supprimer_Produit_Panier()
 }
 
 
+function Ctr_Payer_Panier()
+{
+    $idm = $_POST['idm'];
+    return Mdl_Payer_Panier($idm);
+}
+
+
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -75,6 +82,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } elseif ($action === 'delete-panier') {
             $response = Ctr_Supprimer_Produit_Panier();
             echo json_encode($response);
+        } elseif ($action === 'payer-panier') {
+            echo Ctr_Payer_Panier();
         } else {
             $response = ['success' => false, 'message' => 'Action non reconnue'];
             echo json_encode($response);

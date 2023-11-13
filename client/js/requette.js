@@ -313,7 +313,7 @@ function manageMembre(idm, statut) {
         processData: false,
         contentType: false,
         success: function (response) {
-            console.log(response);
+            // console.log(response);
             var result = JSON.parse(response);
             if (result.success) {
                 listeMembres = result.membres.data;
@@ -347,11 +347,11 @@ function filterMembre() {
         processData: false,
         contentType: false,
         success: function (response) {
-            console.log(response);
+            // console.log('ok -------- ',response);
             var result = JSON.parse(response);
             if (result.success) {
                 listeMembres = result.data;
-                loadMembres(listeMembres);
+                loadMembres(result.data);
             } else {
                 showError(result.message);
             }

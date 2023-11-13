@@ -172,4 +172,29 @@ function Mdl_Produit_Panier_Par($panier)
         return $response;
     }
 }
+
+function Mdl_Payer_Panier($idm)
+{
+    global $connexion;
+    $productsInCart = Mdl_Produits_Panier($idm);
+
+    $requette = "DELETE FROM panier WHERE idm = ?";
+    try {
+        $stmt = $connexion->prepare($requette);
+        $stmt->bind_param("i", $idm);
+        $stmt->execute();
+        $_SESSION['result_pay'] = 1;        
+        $_SESSION['msg_pay'] = 'Paiement effectué';
+    } catch (Exception $e) {
+        $_SESSION['result_pay'] = 0;
+        $_SESSION['msg_pay'] = $e->getMessage();
+    } finally {
+        $_SESSION['idm'] = $idm;
+        $_SESSION['old_cart'] = $productsInCart;
+        header('Location: ../pages/membre.php');
+        exit();
+    }
+}
+
+
 // Produit non trouvé

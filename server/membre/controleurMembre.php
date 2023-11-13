@@ -12,8 +12,27 @@ function Ctr_Ajouter_Membre()
     $daten = $_POST['daten'];
     $mdp = $_POST['mdp'];
 
-    $membre = new Membre(0, $nom, $prenom, $courriel, $sexe, $daten);
-    return Mdl_Ajouter_Membre($membre, $mdp);
+    $res = Mdl_Membre_Par_Courriel($courriel);
+    if ($res['success'] == false) {
+        if (isset($_FILES['avatar']) && $_FILES['avatar']['size'] > 0) {
+            $uploadDir = 'photos/';
+            $uploadedFileName = $nom . '_' . basename($_FILES['avatar']['name']);
+            $uploadedFile = $uploadDir . $uploadedFileName;
+            echo $uploadedFile;
+            if (move_uploaded_file($_FILES['avatar']['tmp_name'], $uploadedFile)) {
+                $membre = new Membre(0, $nom, $prenom, $courriel, $sexe, $daten, $uploadedFile);
+            } else {
+                return ['success' => false, 'message' => 'Erreur lors de l\'upload de l\'image'];
+            }
+        } else {
+            $membre = new Membre(0, $nom, $prenom, $courriel, $sexe, $daten, "");
+        }
+        return Mdl_Ajouter_Membre($membre, $mdp);
+    } else {
+        $_SESSION['msg'] = 'Ce courriel est déja utilisé';
+        header('Location: ../pages/signup.php');
+        exit();
+    }
 }
 
 function Ctr_Modifier_Membre()
@@ -27,8 +46,32 @@ function Ctr_Modifier_Membre()
     $daten = $_POST['daten'];
     $mdp = $_POST['mdp'];
 
-    $membre = new Membre($idm, $nom, $prenom, $courriel, $sexe, $daten);
-    return Mdl_Modifier_Membre($membre, $mdp);
+
+    $res = Mdl_Membre_Par_ID($idm);
+    if ($res['success'] == true) {
+        $existingMembre = $res['data'];
+        if (isset($_FILES['avatar']) && $_FILES['avatar']['size'] > 0) {
+            $uploadDir = 'photos/';
+            $uploadedFileName = $nom . '_' . basename($_FILES['avatar']['name']);
+            $uploadedFile = $uploadDir . $uploadedFileName;
+            echo $uploadedFile;
+            if (move_uploaded_file($_FILES['avatar']['tmp_name'], $uploadedFile)) {
+                if (file_exists($existingMembre->avatar)) {
+                    unlink($existingMembre->avatar);
+                }
+                $membre = new Membre($idm, $nom, $prenom, $courriel, $sexe, $daten, $uploadedFile);
+            } else {
+                return ['success' => false, 'message' => 'Erreur lors de l\'upload de la nouvelle image'];
+            }
+        } else {
+            $membre = new Membre($idm, $nom, $prenom, $courriel, $sexe, $daten, $existingMembre->avatar);
+        }
+        $response = Mdl_Modifier_Membre($membre, $mdp);
+    } else {
+        $response = ['success' => false, 'message' => $res['message']];
+    }
+
+    return $response;
 }
 
 function Ctr_Membres()
@@ -41,8 +84,7 @@ function Ctr_Modifier_Statut_Membre()
 {
     $id = $_POST['id'];
     $statut = $_POST['statut'];
-    $response = Mdl_Modifier_Statut_Membre($id, $statut);
-    return $response;
+    return Mdl_Modifier_Statut_Membre($id, $statut);
 }
 
 function Ctr_Filtrer_Membres()
@@ -67,8 +109,5 @@ switch ($action) {
         break;
     case 'filtrer-membre':
         echo json_encode(Ctr_Filtrer_Membres());
-        break;
-    case 'modification':
-        echo Ctr_Filtrer_Membres();
         break;
 }

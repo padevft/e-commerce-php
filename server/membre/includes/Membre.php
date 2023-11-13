@@ -6,14 +6,16 @@
         private $courriel;
         private $sexe;
         private $daten;
+        private $avatar;
 
-        function __construct($idm,$nom, $prenom, $courriel, $sexe, $daten) {
+        function __construct($idm,$nom, $prenom, $courriel, $sexe, $daten,$avatar) {
             $this->setIdm($idm);
             $this->setNom($nom);
             $this->setPrenom($prenom);
             $this->setCourriel($courriel);
             $this->setSexe($sexe);
             $this->setDaten($daten);
+            $this->setAvatar($avatar);
         }
     
 
@@ -65,6 +67,14 @@
             return $this->daten;
         }
 
+        public function setAvatar($avatar) {
+            $this->avatar = $avatar;
+        }
+    
+        public function getAvatar() {
+            return $this->avatar;
+        }
+
 
         function afficher(){
             $rep= $this->idm." ".$this->nom." ".$this->prenom." ".$this->courriel." ";
@@ -73,7 +83,7 @@
             }else{
                 $sexe = 'Masculin';
             }
-            $rep .= $sexe." ".$this->daten;
+            $rep .= $sexe." ".$this->daten." ".$this->avatar;
 
             return $rep;
         }
